@@ -1,0 +1,324 @@
+/* F1 MCP Client Custom Styles */
+
+/* Global Styles */
+:root {
+  --f1-red: #e10600;
+  --f1-dark: #15151e;
+  --f1-light: #f7f4f3;
+  --f1-accent: #ff6000;
+  --success-green: #28a745;
+  --warning-orange: #fd7e14;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--f1-light);
+}
+
+/* F1 Themed Components */
+.f1-header {
+  background: linear-gradient(135deg, var(--f1-red) 0%, var(--f1-dark) 100%);
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.f1-card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.f1-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Status Indicators */
+.status-healthy {
+  color: var(--success-green);
+}
+
+.status-degraded {
+  color: var(--warning-orange);
+}
+
+.status-error {
+  color: var(--f1-red);
+}
+
+/* Loading States */
+.loading-spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* MCP Tool Buttons */
+.mcp-tool-btn {
+  border: 2px solid var(--f1-red);
+  color: var(--f1-red);
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.mcp-tool-btn:hover {
+  background: var(--f1-red);
+  color: white;
+  transform: scale(1.05);
+}
+
+.mcp-tool-btn.active {
+  background: var(--f1-red);
+  color: white;
+}
+
+/* Results Display */
+.result-card {
+  border-left: 4px solid var(--f1-red);
+  margin-bottom: 1rem;
+}
+
+.result-success {
+  border-left-color: var(--success-green);
+}
+
+.result-error {
+  border-left-color: var(--f1-red);
+}
+
+.result-preview {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.result-full-data {
+  background: #212529;
+  color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  max-height: 400px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-metric {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--f1-red);
+}
+
+/* Quick Actions */
+.quick-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.quick-action-btn {
+  padding: 1rem;
+  border: 2px solid #dee2e6;
+  background: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #495057;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.quick-action-btn:hover {
+  border-color: var(--f1-red);
+  color: var(--f1-red);
+  transform: translateY(-2px);
+}
+
+/* Notifications */
+.notification-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1050;
+  max-width: 400px;
+}
+
+.notification {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification-success {
+  border-left: 4px solid var(--success-green);
+}
+
+.notification-error {
+  border-left: 4px solid var(--f1-red);
+}
+
+.notification-info {
+  border-left: 4px solid #17a2b8;
+}
+
+/* Query Form Enhancements */
+.query-form {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tool-category-badge {
+  background: var(--f1-red);
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-metric {
+    font-size: 1.5rem;
+  }
+
+  .quick-action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-full-data {
+    font-size: 0.6rem;
+  }
+}
+
+/* Production Status Indicators */
+.production-status {
+  background: linear-gradient(135deg, var(--success-green) 0%, #20c997 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.service-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
+
+.service-link:hover {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+/* F1 Color Scheme */
+.bg-f1-red {
+  background-color: var(--f1-red) !important;
+}
+.text-f1-red {
+  color: var(--f1-red) !important;
+}
+.border-f1-red {
+  border-color: var(--f1-red) !important;
+}
+
+.bg-f1-dark {
+  background-color: var(--f1-dark) !important;
+}
+.text-f1-dark {
+  color: var(--f1-dark) !important;
+}
+
+/* System Health Indicators */
+.health-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.health-healthy {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.health-degraded {
+  background-color: #fff3cd;
+  color: #664d03;
+}
+
+.health-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Scrollbar Styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
