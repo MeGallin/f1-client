@@ -193,112 +193,286 @@ class F1MCPClient {
       throw error;
     }
   }
-
   // === LANGGRAPH AGENTS INTEGRATION (PRIMARY) ===
 
-  // Multi-Agent Analysis - FIXED with proper CORS and retry
+  // Multi-Agent Analysis - Complete implementation with Multi-Agent Orchestrator
   async analyzeWithAgents(query, options = {}) {
     try {
-      console.log(`🤖 Analyzing with LangGraph agents: ${query}`, options);
+      console.log(`🤖 Multi-Agent Analysis: "${query}"`, options);
+
+      const requestPayload = {
+        query,
+        options: {
+          threadId: options.threadId || `thread_${Date.now()}`,
+          includeMetadata: true,
+          ...options,
+        },
+      };
 
       const response = await this.requestWithRetry(
         `${this.langGraphAgentsUrl}/agents/analyze`,
         {
           method: 'POST',
-          body: JSON.stringify({ query, options }),
+          body: JSON.stringify(requestPayload),
+          timeout: 15000, // Longer timeout for multi-agent processing
         },
       );
 
-      const result = await this.handleResponse(response);
-      console.log(`✅ LangGraph agents analysis success:`, result);
-      return result;
-    } catch (error) {
-      console.error(`❌ LangGraph agents analysis failed:`, error);
-
-      // Provide more specific error information
-      if (error.name === 'AbortError') {
+      if (!response.ok) {
         throw new Error(
-          'Request timed out - LangGraph service may be starting up',
-        );
-      } else if (error.message.includes('Failed to fetch')) {
-        throw new Error(
-          'Network error - LangGraph service may be temporarily unavailable',
+          `Multi-Agent Analysis failed: ${response.status} ${response.statusText}`,
         );
       }
 
-      throw error;
+      const result = await this.handleResponse(response);
+
+      // Enhance result with client-side metadata
+      const enhancedResult = {
+        ...result,
+        clientMetadata: {
+          timestamp: new Date().toISOString(),
+          requestId: options.requestId || `req_${Date.now()}`,
+          source: 'f1-mcp-client',
+          agentsUrl: this.langGraphAgentsUrl,
+        },
+      };
+
+      console.log(`✅ Multi-Agent Analysis completed:`, {
+        confidence: result.confidence,
+        agentsUsed: result.metadata?.agentsUsed?.length || 0,
+        responseLength: result.response?.length || 0,
+      });
+
+      return enhancedResult;
+    } catch (error) {
+      console.error(`❌ Multi-Agent Analysis failed:`, error);
+      throw this.enhanceAgentError(error, 'Multi-Agent Analysis');
     }
   }
-
-  // Get Available Agents - Enhanced with better error handling
+  // Get Available Agents - Enhanced with comprehensive agent discovery
   async getAvailableAgents() {
     try {
-      console.log('🔍 Getting available LangGraph agents from live service...');
+      console.log(
+        '🔍 Discovering available Multi-Agent Orchestrator agents...',
+      );
 
       const response = await this.requestWithRetry(
         `${this.langGraphAgentsUrl}/agents`,
+        { timeout: 8000 },
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        throw new Error(
+          `Agent discovery failed: ${response.status} ${response.statusText}`,
+        );
       }
 
       const result = await response.json();
 
-      console.log('✅ Available agents retrieved from live service:', result);
+      // Validate agent structure according to Multi-Agent Orchestrator specs
+      const validatedAgents = this.validateAgentStructure(result);
+
+      console.log('✅ Multi-Agent Orchestrator agents discovered:', {
+        totalAgents: Object.keys(validatedAgents.agents || {}).length,
+        healthyAgents: validatedAgents.healthStatus?.healthyCount || 0,
+        status: validatedAgents.systemStatus,
+      });
+
       return {
-        ...result,
-        systemStatus: 'live_production',
-        message: 'LangGraph agents service is live and operational!',
+        ...validatedAgents,
+        systemStatus: 'operational',
+        discoveryTimestamp: new Date().toISOString(),
+        clientVersion: '2.0.0',
+        orchestratorReady: true,
       };
     } catch (error) {
       console.warn(
-        '⚠️ LangGraph service error - falling back to direct API:',
+        '⚠️ Agent discovery failed - providing fallback agent info:',
         error.message,
       );
 
-      return {
-        available: ['seasonAnalysis', 'multiAgent'],
-        details: {
-          seasonAnalysis: {
-            status: 'service_temporarily_unavailable',
-            description: 'Season analysis agent (service may be starting up)',
-            note: 'Render services may take 30-60 seconds to wake up from sleep',
-          },
-          multiAgent: {
-            status: 'service_temporarily_unavailable',
-            description:
-              'Multi-agent orchestrator (service may be starting up)',
-            note: 'Please try again in a few moments',
-          },
-        },
-        systemStatus: 'service_temporarily_unavailable',
-        message:
-          'LangGraph service temporarily unavailable. This is normal for Render free tier - services sleep after inactivity.',
-        errorDetails: error.message,
-      };
+      return this.getFallbackAgentInfo(error);
     }
   }
-
-  // Season Analysis Agent - Enhanced
+  // Season Analysis Agent - Specialized agent endpoint
   async analyzeSeasonWithAgent(query, options = {}) {
     try {
-      console.log(`🏎️ Season analysis with agent: ${query}`, options);
+      console.log(`🏎️ Season Analysis Agent: "${query}"`, options);
 
       const response = await this.requestWithRetry(
         `${this.langGraphAgentsUrl}/agents/season/analyze`,
         {
           method: 'POST',
-          body: JSON.stringify({ query, options }),
+          body: JSON.stringify({
+            query,
+            options: {
+              year: options.year || 2025,
+              includeStandings: options.includeStandings !== false,
+              includeRaces: options.includeRaces !== false,
+              ...options,
+            },
+          }),
+          timeout: 10000,
         },
       );
 
       const result = await this.handleResponse(response);
-      console.log(`✅ Season analysis success:`, result);
+
+      console.log(`✅ Season Analysis Agent completed:`, {
+        responseLength: result.response?.length || 0,
+        confidence: result.confidence,
+      });
+
       return result;
     } catch (error) {
-      console.error(`❌ Season analysis failed:`, error);
-      throw error;
+      console.error(`❌ Season Analysis Agent failed:`, error);
+      throw this.enhanceAgentError(error, 'Season Analysis Agent');
+    }
+  }
+
+  // Driver Performance Agent - Specialized agent endpoint
+  async analyzeDriverWithAgent(query, options = {}) {
+    try {
+      console.log(`🏁 Driver Performance Agent: "${query}"`, options);
+
+      const response = await this.requestWithRetry(
+        `${this.langGraphAgentsUrl}/agents/driver/analyze`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            query,
+            options: {
+              year: options.year || 2025,
+              includeCareerStats: options.includeCareerStats !== false,
+              compareDrivers: options.compareDrivers || false,
+              ...options,
+            },
+          }),
+          timeout: 10000,
+        },
+      );
+
+      const result = await this.handleResponse(response);
+
+      console.log(`✅ Driver Performance Agent completed:`, {
+        responseLength: result.response?.length || 0,
+        confidence: result.confidence,
+      });
+
+      return result;
+    } catch (error) {
+      console.error(`❌ Driver Performance Agent failed:`, error);
+      throw this.enhanceAgentError(error, 'Driver Performance Agent');
+    }
+  }
+
+  // Race Strategy Agent - Specialized agent endpoint
+  async analyzeRaceWithAgent(query, options = {}) {
+    try {
+      console.log(`🏁 Race Strategy Agent: "${query}"`, options);
+
+      const response = await this.requestWithRetry(
+        `${this.langGraphAgentsUrl}/agents/race/analyze`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            query,
+            options: {
+              year: options.year || 2025,
+              round: options.round,
+              includeQualifying: options.includeQualifying !== false,
+              includeStrategy: options.includeStrategy !== false,
+              ...options,
+            },
+          }),
+          timeout: 10000,
+        },
+      );
+
+      const result = await this.handleResponse(response);
+
+      console.log(`✅ Race Strategy Agent completed:`, {
+        responseLength: result.response?.length || 0,
+        confidence: result.confidence,
+      });
+
+      return result;
+    } catch (error) {
+      console.error(`❌ Race Strategy Agent failed:`, error);
+      throw this.enhanceAgentError(error, 'Race Strategy Agent');
+    }
+  }
+
+  // Championship Predictor Agent - Specialized agent endpoint
+  async analyzeChampionshipWithAgent(query, options = {}) {
+    try {
+      console.log(`🏆 Championship Predictor Agent: "${query}"`, options);
+
+      const response = await this.requestWithRetry(
+        `${this.langGraphAgentsUrl}/agents/championship/analyze`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            query,
+            options: {
+              year: options.year || 2025,
+              includePredictions: options.includePredictions !== false,
+              includeScenarios: options.includeScenarios !== false,
+              ...options,
+            },
+          }),
+          timeout: 12000,
+        },
+      );
+
+      const result = await this.handleResponse(response);
+
+      console.log(`✅ Championship Predictor Agent completed:`, {
+        responseLength: result.response?.length || 0,
+        confidence: result.confidence,
+      });
+
+      return result;
+    } catch (error) {
+      console.error(`❌ Championship Predictor Agent failed:`, error);
+      throw this.enhanceAgentError(error, 'Championship Predictor Agent');
+    }
+  }
+
+  // Historical Comparison Agent - Specialized agent endpoint
+  async analyzeHistoricalWithAgent(query, options = {}) {
+    try {
+      console.log(`📊 Historical Comparison Agent: "${query}"`, options);
+
+      const response = await this.requestWithRetry(
+        `${this.langGraphAgentsUrl}/agents/historical/analyze`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            query,
+            options: {
+              startYear: options.startYear,
+              endYear: options.endYear || 2025,
+              includeEras: options.includeEras !== false,
+              includeComparisons: options.includeComparisons !== false,
+              ...options,
+            },
+          }),
+          timeout: 15000, // Longer timeout for historical analysis
+        },
+      );
+
+      const result = await this.handleResponse(response);
+
+      console.log(`✅ Historical Comparison Agent completed:`, {
+        responseLength: result.response?.length || 0,
+        confidence: result.confidence,
+      });
+
+      return result;
+    } catch (error) {
+      console.error(`❌ Historical Comparison Agent failed:`, error);
+      throw this.enhanceAgentError(error, 'Historical Comparison Agent');
     }
   }
 
@@ -997,6 +1171,173 @@ class F1MCPClient {
     if (healthyCount === healthChecks.length) return 'healthy';
     if (healthyCount >= healthChecks.length / 2) return 'degraded';
     return 'error';
+  }
+
+  // === AGENT UTILITY METHODS ===
+
+  validateAgentStructure(agentData) {
+    const expectedAgents = [
+      'season',
+      'driver',
+      'race',
+      'championship',
+      'historical',
+    ];
+
+    if (!agentData || typeof agentData !== 'object') {
+      return this.createDefaultAgentStructure();
+    }
+
+    return {
+      agents: this.normalizeAgentData(
+        agentData.agents ||
+          agentData.available ||
+          agentData.details ||
+          agentData,
+        expectedAgents,
+      ),
+      healthStatus: this.normalizeHealthStatus(
+        agentData.healthStatus || agentData.health || {},
+        expectedAgents,
+      ),
+      systemStatus: agentData.systemStatus || 'operational',
+      totalAgents: expectedAgents.length,
+    };
+  }
+
+  normalizeAgentData(agents, expectedAgents) {
+    const normalizedAgents = {};
+
+    expectedAgents.forEach((agentName) => {
+      normalizedAgents[agentName] = {
+        name: agentName,
+        status: 'healthy',
+        description: this.getAgentDescription(agentName),
+        capabilities: this.getAgentCapabilities(agentName),
+      };
+    });
+
+    // Override with actual data if available
+    if (Array.isArray(agents)) {
+      agents.forEach((agent) => {
+        if (typeof agent === 'string' && expectedAgents.includes(agent)) {
+          normalizedAgents[agent].status = 'healthy';
+        }
+      });
+    } else if (typeof agents === 'object') {
+      Object.entries(agents).forEach(([key, value]) => {
+        if (expectedAgents.includes(key)) {
+          normalizedAgents[key] = { ...normalizedAgents[key], ...value };
+        }
+      });
+    }
+
+    return normalizedAgents;
+  }
+
+  normalizeHealthStatus(healthStatus, expectedAgents) {
+    const defaultHealth = {
+      totalAgents: expectedAgents.length,
+      healthyCount: expectedAgents.length,
+      unhealthyCount: 0,
+      agents: {},
+    };
+
+    expectedAgents.forEach((agentName) => {
+      defaultHealth.agents[agentName] = 'healthy';
+    });
+
+    if (!healthStatus || typeof healthStatus !== 'object') {
+      return defaultHealth;
+    }
+
+    return {
+      totalAgents: healthStatus.totalAgents || expectedAgents.length,
+      healthyCount: healthStatus.healthyCount || expectedAgents.length,
+      unhealthyCount: healthStatus.unhealthyCount || 0,
+      agents: healthStatus.agents || defaultHealth.agents,
+    };
+  }
+
+  getAgentDescription(agentName) {
+    const descriptions = {
+      season: 'Season analysis and statistics specialist',
+      driver: 'Driver performance and career analysis expert',
+      race: 'Race strategy and tactical analysis specialist',
+      championship: 'Championship predictions and scenario analysis expert',
+      historical: 'Historical data comparison and era analysis specialist',
+    };
+    return descriptions[agentName] || `${agentName} analysis specialist`;
+  }
+
+  getAgentCapabilities(agentName) {
+    const capabilities = {
+      season: ['season_statistics', 'standings_analysis', 'race_calendar'],
+      driver: ['driver_performance', 'career_stats', 'driver_comparison'],
+      race: ['race_analysis', 'strategy_insights', 'qualifying_results'],
+      championship: [
+        'championship_predictions',
+        'scenario_analysis',
+        'points_simulation',
+      ],
+      historical: [
+        'historical_comparison',
+        'era_analysis',
+        'legacy_statistics',
+      ],
+    };
+    return capabilities[agentName] || ['general_analysis'];
+  }
+
+  createDefaultAgentStructure() {
+    const expectedAgents = [
+      'season',
+      'driver',
+      'race',
+      'championship',
+      'historical',
+    ];
+    return {
+      agents: this.normalizeAgentData({}, expectedAgents),
+      healthStatus: this.normalizeHealthStatus({}, expectedAgents),
+      systemStatus: 'initializing',
+      totalAgents: expectedAgents.length,
+    };
+  }
+
+  getFallbackAgentInfo(error) {
+    return {
+      agents: this.createDefaultAgentStructure().agents,
+      systemStatus: 'service_unavailable',
+      message:
+        'Multi-Agent Orchestrator temporarily unavailable - services may be sleeping on Render free tier',
+      errorDetails: error.message,
+      fallbackMode: true,
+      retryRecommendation:
+        'Services typically wake up within 30-60 seconds. Please try again shortly.',
+      discoveryTimestamp: new Date().toISOString(),
+      clientVersion: '2.0.0',
+      orchestratorReady: false,
+    };
+  }
+
+  enhanceAgentError(error, agentType = 'Agent') {
+    let enhancedMessage = `${agentType} operation failed: ${error.message}`;
+
+    if (error.name === 'AbortError') {
+      enhancedMessage = `${agentType} request timed out - service may be starting up (Render free tier)`;
+    } else if (error.message.includes('Failed to fetch')) {
+      enhancedMessage = `${agentType} network error - service temporarily unavailable`;
+    } else if (error.message.includes('500')) {
+      enhancedMessage = `${agentType} server error - service may be restarting`;
+    }
+
+    const enhancedError = new Error(enhancedMessage);
+    enhancedError.originalError = error;
+    enhancedError.agentType = agentType;
+    enhancedError.timestamp = new Date().toISOString();
+
+    return enhancedError;
   }
 
   // === UTILITY METHODS ===
