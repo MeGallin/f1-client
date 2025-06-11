@@ -79,22 +79,78 @@ function QueryResults({ results }) {
       return `🤖 LangGraph Analysis: ${preview}`;
     }
 
-    // Handle fallback comparison responses (when LangGraph fails but fallback succeeds)
+    // Handle driver comparison responses (multiple formats)
     if (
-      data.success &&
-      data.data &&
-      data.data.queryType === 'driver_comparison'
+      data.type === 'driver_comparison' ||
+      data.queryType === 'driver_comparison'
     ) {
-      return `🔄 Comparison Request: ${data.data.requestedDrivers.join(
-        ' vs ',
-      )} - ${data.data.note}`;
+      const drivers = data.drivers || data.requestedDrivers || [];
+      const comparison = data.comparison || {};
+      const foundDrivers = comparison.foundInStandings || [];
+
+      if (foundDrivers.length > 0) {
+        const driverSummary = foundDrivers
+          .map(
+            (driver) =>
+              `${driver.name} (P${driver.position}, ${driver.points}pts, ${driver.team})`,
+          )
+          .join(' vs ');
+        return `🔄 Driver Comparison: ${driverSummary}`;
+      } else {
+        return `🔄 Comparison Request: ${drivers.join(' vs ')} - ${
+          data.note || data.message || 'Processing...'
+        }`;
+      }
     }
 
-    // Handle special comparison responses (direct format)
-    if (data.queryType === 'driver_comparison') {
-      return `🔄 Comparison Request: ${data.requestedDrivers.join(' vs ')} - ${
-        data.note
-      }`;
+    // Handle career statistics responses
+    if (data.type === 'career_statistics') {
+      const drivers = data.drivers || [];
+      const careerSummary = data.careerSummary || {};
+      const years = Object.keys(careerSummary);
+
+      if (years.length > 0) {
+        const yearSummary = years
+          .map((year) => {
+            const yearData = careerSummary[year];
+            if (Array.isArray(yearData) && yearData.length > 0) {
+              return `${year}: ${yearData
+                .map((d) => `${d.name} (P${d.position})`)
+                .join(', ')}`;
+            }
+            return `${year}: No data`;
+          })
+          .join('; ');
+        return `📊 Career Stats for ${drivers.join(', ')}: ${yearSummary}`;
+      } else {
+        return `📊 Career Statistics: ${drivers.join(', ')} - ${
+          data.note || 'Processing...'
+        }`;
+      }
+    }
+
+    // Handle single driver responses
+    if (data.type === 'single_driver') {
+      const driver = data.driver || 'Unknown';
+      const driverInfo = data.driverInfo;
+
+      if (driverInfo) {
+        return `🏎️ ${driverInfo.name}: P${driverInfo.position} (${driverInfo.points}pts) - ${driverInfo.team}`;
+      } else {
+        return `🏎️ Single Driver Query: ${driver} - ${
+          data.message || 'Not found'
+        }`;
+      }
+    }
+
+    // Handle fallback responses with message
+    if (data.fallbackUsed && data.message) {
+      return `🔄 Fallback Response: ${data.message}`;
+    }
+
+    // Handle error responses with suggestions
+    if (data.error && data.suggestion) {
+      return `❌ Error: ${data.error} - ${data.suggestion}`;
     }
 
     // Handle F1 API response structure
@@ -119,7 +175,15 @@ function QueryResults({ results }) {
       const preview = data.slice(0, 3).map((item) => {
         if (typeof item === 'object') {
           const keys = Object.keys(item).slice(0, 3);
-          return keys.map((key) => `${key}: ${item[key]}`).join(', ');
+          return keys
+            .map((key) => {
+              const value = item[key];
+              if (typeof value === 'object' && value !== null) {
+                return `${key}: [object]`;
+              }
+              return `${key}: ${value}`;
+            })
+            .join(', ');
         }
         return item;
       });
@@ -132,8 +196,18 @@ function QueryResults({ results }) {
     if (typeof data === 'object') {
       const keys = Object.keys(data).slice(0, 5);
       return (
-        keys.map((key) => `${key}: ${data[key]}`).join(', ') +
-        (Object.keys(data).length > 5 ? '...' : '')
+        keys
+          .map((key) => {
+            const value = data[key];
+            if (typeof value === 'object' && value !== null) {
+              if (Array.isArray(value)) {
+                return `${key}: [${value.length} items]`;
+              }
+              return `${key}: [object]`;
+            }
+            return `${key}: ${value}`;
+          })
+          .join(', ') + (Object.keys(data).length > 5 ? '...' : '')
       );
     }
 
