@@ -120,6 +120,7 @@ const QuickActions = ({ actions = [] }) => {
                 letterSpacing: '1px',
               }}
             >
+              <i className="fas fa-rocket me-2"></i>
               QUICK ACTIONS
             </h5>
           </div>

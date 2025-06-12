@@ -14,7 +14,7 @@ const HeroSection = ({
 }) => {
   return (
     <section
-      className="text-white py-5 mb-4"
+      className="text-white py-3 mb-4"
       style={{
         background: 'var(--f1-gradient-dark)',
         position: 'relative',

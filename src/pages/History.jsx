@@ -323,22 +323,26 @@ const HistoryPage = () => {
               currentRace={currentRace}
             />
 
-            <div className="col-lg-6 mb-4">
-              <TopDriversCard
-                selectedSeason={selectedSeason}
-                loadingDrivers={loadingDrivers}
-                topDrivers={topDrivers}
-                onViewModeChange={handleViewModeChange}
-              />
-            </div>
+            <div className="col-12 mb-4">
+              <div className="row">
+                <div className="col-lg-6 mb-4">
+                  <TopDriversCard
+                    selectedSeason={selectedSeason}
+                    loadingDrivers={loadingDrivers}
+                    topDrivers={topDrivers}
+                    onViewModeChange={handleViewModeChange}
+                  />
+                </div>
 
-            <div className="col-lg-6 mb-4">
-              <TopConstructorsCard
-                selectedSeason={selectedSeason}
-                loadingConstructors={loadingConstructors}
-                topConstructors={topConstructors}
-                onViewModeChange={handleViewModeChange}
-              />
+                <div className="col-lg-6 mb-4">
+                  <TopConstructorsCard
+                    selectedSeason={selectedSeason}
+                    loadingConstructors={loadingConstructors}
+                    topConstructors={topConstructors}
+                    onViewModeChange={handleViewModeChange}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -378,9 +382,6 @@ const HistoryPage = () => {
         {/* Races Mode */}
         {viewMode === 'races' && <RacesView selectedSeason={selectedSeason} />}
 
-        {/* Racing Divider */}
-        <div className="f1-divider my-5"></div>
-
         {/* Loading State */}
         {isLoading && <LoadingState selectedSeason={selectedSeason} />}
 
@@ -390,6 +391,9 @@ const HistoryPage = () => {
           currentYear={currentYear}
           onSeasonChange={handleSeasonChange}
         />
+
+        {/* Racing Divider */}
+        <div className="f1-divider my-5"></div>
       </div>
 
       {/* Outlet for nested routes */}

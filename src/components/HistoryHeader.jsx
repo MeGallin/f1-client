@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const HistoryHeader = ({ season, round }) => {
   return (
     <section
-      className="text-white py-5"
+      className="text-white py-3 mb-4"
       style={{
         background: 'var(--f1-gradient-dark)',
         position: 'relative',
@@ -25,69 +25,20 @@ const HistoryHeader = ({ season, round }) => {
           left: 0,
           right: 0,
           bottom: 0,
-          opacity: 0.3,
+          opacity: 0.2,
         }}
       ></div>
       <div className="container position-relative">
         <div className="row align-items-center">
           <div className="col-lg-8">
-            <nav aria-label="breadcrumb">
-              <ol
-                className="breadcrumb mb-3"
-                style={{
-                  '--bs-breadcrumb-divider-color': 'var(--f1-grey-300)',
-                  '--bs-breadcrumb-item-active-color': 'var(--f1-red-light)',
-                }}
-              >
-                <li className="breadcrumb-item">
-                  <Link
-                    to="/"
-                    style={{
-                      color: 'var(--f1-grey-300)',
-                      textDecoration: 'none',
-                      transition: 'var(--transition-fast)',
-                    }}
-                    onMouseEnter={(e) =>
-                      (e.target.style.color = 'var(--f1-white)')
-                    }
-                    onMouseLeave={(e) =>
-                      (e.target.style.color = 'var(--f1-grey-300)')
-                    }
-                  >
-                    <i className="fas fa-home"></i> Home
-                  </Link>
-                </li>
-                <li
-                  className="breadcrumb-item active"
-                  style={{ color: 'var(--f1-red-light)' }}
-                >
-                  History
-                </li>
-                {season && (
-                  <li
-                    className="breadcrumb-item active"
-                    style={{ color: 'var(--f1-red-light)' }}
-                  >
-                    {season}
-                  </li>
-                )}
-                {round && (
-                  <li
-                    className="breadcrumb-item active"
-                    style={{ color: 'var(--f1-red-light)' }}
-                  >
-                    Round {round}
-                  </li>
-                )}
-              </ol>
-            </nav>
             <h1
               style={{
                 fontFamily: 'var(--font-racing)',
-                fontSize: 'var(--text-5xl)',
+                fontSize: 'var(--text-4xl)',
                 fontWeight: 'var(--fw-black)',
                 marginBottom: '1rem',
                 letterSpacing: '-1px',
+                color: 'var(--f1-white)',
                 textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
               }}
             >
