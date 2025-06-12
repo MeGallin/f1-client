@@ -30,6 +30,7 @@ export {
   useSelectedYear,
   useSelectedRound,
   useStandings,
+  useHistoricalStandings,
   useCurrentAndNextRace,
   useRaces,
   useAppInitialization,

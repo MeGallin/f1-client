@@ -1,15 +1,34 @@
 /**
  * Loading Indicator Component
  * Shows loading states and handles API errors gracefully
+ * Enhanced with routing-specific loading messages
  */
 
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { useIsLoading, useHasError, useErrorStates } from '../state';
 
 export const LoadingIndicator = () => {
   const isLoading = useIsLoading();
   const hasError = useHasError();
   const errorStates = useErrorStates();
+  const location = useLocation();
+
+  // Determine loading message based on current route
+  const getLoadingMessage = () => {
+    if (location.pathname === '/') {
+      return 'Loading live F1 dashboard data...';
+    }
+    if (location.pathname.startsWith('/history')) {
+      const pathParts = location.pathname.split('/');
+      if (pathParts.length >= 3) {
+        const season = pathParts[2];
+        return `Loading ${season} season data...`;
+      }
+      return 'Loading historical F1 data...';
+    }
+    return 'Loading F1 data...';
+  };
 
   if (!isLoading && !hasError) {
     return null;
@@ -30,7 +49,7 @@ export const LoadingIndicator = () => {
               >
                 <span className="visually-hidden">Loading...</span>
               </div>
-              <span>Loading F1 data...</span>
+              <span>{getLoadingMessage()}</span>
             </div>
           </div>
         )}

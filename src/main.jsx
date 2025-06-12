@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
 import { F1StateProvider } from './state';
 import config from './config';
 
@@ -23,7 +24,7 @@ if (!configValidation.isValid) {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <F1StateProvider>
-      <App />
+      <RouterProvider router={router} />
     </F1StateProvider>
   </React.StrictMode>,
 );
