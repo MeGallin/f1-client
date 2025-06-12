@@ -278,6 +278,55 @@ export const topConstructorsAtom = atom((get) => {
 });
 
 /**
+ * Derived atom: Top 5 drivers from historical standings (for History page)
+ */
+export const historicalTopDriversAtom = atom((get) => {
+  const standings = get(driverStandingsAtom);
+
+  if (
+    !standings?.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings
+  ) {
+    return [];
+  }
+
+  return standings.MRData.StandingsTable.StandingsLists[0].DriverStandings.slice(
+    0,
+    5,
+  ).map((standing) => ({
+    position: parseInt(standing.position),
+    driver: `${standing.Driver.givenName} ${standing.Driver.familyName}`,
+    constructor: standing.Constructors[0]?.name || 'N/A',
+    points: parseInt(standing.points),
+    wins: parseInt(standing.wins),
+  }));
+});
+
+/**
+ * Derived atom: Top 5 constructors from historical standings (for History page)
+ */
+export const historicalTopConstructorsAtom = atom((get) => {
+  const standings = get(constructorStandingsAtom);
+
+  if (
+    !standings?.MRData?.StandingsTable?.StandingsLists?.[0]
+      ?.ConstructorStandings
+  ) {
+    return [];
+  }
+
+  return standings.MRData.StandingsTable.StandingsLists[0].ConstructorStandings.slice(
+    0,
+    5,
+  ).map((standing) => ({
+    position: parseInt(standing.position),
+    name: standing.Constructor.name,
+    nationality: standing.Constructor.nationality,
+    points: parseInt(standing.points),
+    wins: parseInt(standing.wins),
+  }));
+});
+
+/**
  * Derived atom: Race calendar for selected year
  */
 export const raceCalendarAtom = atom((get) => {

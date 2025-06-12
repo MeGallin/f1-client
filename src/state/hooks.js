@@ -48,6 +48,8 @@ import {
   availableRoundsAtom,
   topDriversAtom,
   topConstructorsAtom,
+  historicalTopDriversAtom,
+  historicalTopConstructorsAtom,
   raceCalendarAtom,
   isLoadingAtom,
   hasErrorAtom,
@@ -329,6 +331,28 @@ export const useStandings = () => {
     fetchConstructorStandings,
     fetchCurrentDriverStandings,
     fetchCurrentConstructorStandings,
+  };
+};
+
+/**
+ * Hook for historical standings data (for History page)
+ */
+export const useHistoricalStandings = () => {
+  const driverStandings = useAtomValue(driverStandingsAtom);
+  const constructorStandings = useAtomValue(constructorStandingsAtom);
+  const historicalTopDrivers = useAtomValue(historicalTopDriversAtom);
+  const historicalTopConstructors = useAtomValue(historicalTopConstructorsAtom);
+
+  const fetchDriverStandings = useSetAtom(fetchDriverStandingsAtom);
+  const fetchConstructorStandings = useSetAtom(fetchConstructorStandingsAtom);
+
+  return {
+    driverStandings,
+    constructorStandings,
+    topDrivers: historicalTopDrivers,
+    topConstructors: historicalTopConstructors,
+    fetchDriverStandings,
+    fetchConstructorStandings,
   };
 };
 
