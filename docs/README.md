@@ -13,8 +13,7 @@ A modern React-based web application for exploring Formula 1 data using the F1 M
 ## 🚀 Quick Start
 
 ### Prerequisites
-
-- Node.js 18+
+- Node.js 18+ 
 - npm or yarn
 
 ### Installation
@@ -71,7 +70,6 @@ The app uses environment variables for configuration:
 - `.env.development` - Development overrides
 
 Key environment variables:
-
 - `VITE_F1_MCP_SERVER_URL` - MCP server endpoint
 - `VITE_F1_LANGGRAPH_AGENTS_URL` - LangGraph agents endpoint
 - `VITE_F1_DEBUG_MODE` - Enable debug mode
