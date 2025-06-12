@@ -11,6 +11,85 @@
 }
 
 body {
+  background-color: var(--f1-light);
+  color: var(--f1-dark);
+  font-family: 'Roboto', 'Open Sans', sans-serif;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: var(--f1-dark) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  color: var(--f1-light) !important;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Card styling */
+.card {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: var(--f1-red);
+  color: white;
+  border-radius: 8px 8px 0 0 !important;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+}
+
+/* Table styling */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  background-color: var(--f1-dark);
+  color: white;
+  border-color: var(--f1-dark);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Footer styling */
+footer {
+  background-color: var(--f1-dark) !important;
+  color: var(--f1-light);
+}
+
+/* Form controls */
+.form-control {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--f1-accent);
+  box-shadow: 0 0 0 0.2rem rgba(255, 96, 0, 0.25);
+}
+
+/* Spinner styling */
+.spinner-border {
+  color: var(--f1-red);
+}
+
+body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--f1-light);
 }
