@@ -45,7 +45,7 @@ const OverviewStats = ({
               ) : (
                 <div>
                   <div className="f1-stat-number">
-                    {topDrivers?.[0]?.driver || 'Loading...'}
+                    {topDrivers?.[0]?.driver || 'N/A'}
                   </div>
                   <div className="f1-stat-label">
                     {topDrivers?.[0]?.points || 0} points
@@ -91,7 +91,7 @@ const OverviewStats = ({
                     className="f1-stat-number"
                     style={{ color: 'var(--f1-danger)' }}
                   >
-                    {topConstructors?.[0]?.name || 'Loading...'}
+                    {topConstructors?.[0]?.name || 'N/A'}
                   </div>
                   <div className="f1-stat-label">
                     {topConstructors?.[0]?.points || 0} points

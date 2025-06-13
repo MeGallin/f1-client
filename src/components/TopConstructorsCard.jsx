@@ -236,8 +236,20 @@ const TopConstructorsCard = ({
           </div>
         ) : (
           <div className="text-center py-3">
-            <i className="fas fa-spinner fa-spin me-2"></i>
-            Loading constructor data...
+            {loadingConstructors ? (
+              <>
+                <i className="fas fa-spinner fa-spin me-2"></i>
+                Loading constructor data...
+              </>
+            ) : (
+              <>
+                <i
+                  className="fas fa-exclamation-triangle me-2"
+                  style={{ color: 'var(--f1-orange)' }}
+                ></i>
+                No constructor data available for {selectedSeason}
+              </>
+            )}
           </div>
         )}
       </div>
