@@ -27,13 +27,14 @@ const RacesView = ({ selectedSeason }) => {
   } = useRaceResults();
   const { lapTimes, pitStops, fetchLapTimes, fetchPitStops } = useLapData();
   const { setSelectedYear } = useSelectedYear();
+
   // Set the selected year when component mounts
   useEffect(() => {
     if (selectedSeason) {
       setSelectedYear(parseInt(selectedSeason));
       fetchRaces(selectedSeason);
     }
-  }, [selectedSeason]); // Only depend on selectedSeason to prevent infinite loop
+  }, [selectedSeason, setSelectedYear, fetchRaces]);
 
   // Get race list from API data
   const raceList = races?.MRData?.RaceTable?.Races || [];

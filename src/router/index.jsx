@@ -63,6 +63,10 @@ export const router = createBrowserRouter([
         element: <HistoryPage />,
       },
       {
+        path: 'history/:season/races',
+        element: <HistoryPage />,
+      },
+      {
         path: 'history/:season/:round',
         element: <HistoryPage />,
       },

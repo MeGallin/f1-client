@@ -4,7 +4,7 @@
  * Comprehensive history browser with:
  * - Season selector and browser
  * - Past race results and detailed views
- * - Historical championship data
+   }; championship data
  * - Advanced filtering and statistics
  * - Sub-routes for specific seasons/rounds
  */
@@ -62,6 +62,13 @@ const HistoryPage = () => {
   const [loadingDrivers, setLoadingDrivers] = useState(false);
   const [loadingConstructors, setLoadingConstructors] = useState(false);
   const [loadingOverview, setLoadingOverview] = useState(false);
+
+  // Update selected season from URL params
+  useEffect(() => {
+    if (season && season !== selectedSeason) {
+      setSelectedSeason(season);
+    }
+  }, [season]); // Removed selectedSeason to prevent infinite loop
 
   // Sorting function for drivers
   const sortDrivers = (drivers, sortBy, sortOrder) => {
@@ -159,14 +166,6 @@ const HistoryPage = () => {
       setSortOrder('asc');
     }
   };
-  // Debug current state (reduced logging)
-  useEffect(() => {
-    console.log('🏎️ History Page State Update:', {
-      selectedSeason,
-      viewMode,
-      pathname: location.pathname,
-    });
-  }, [selectedSeason, viewMode, location.pathname]);
 
   // Available seasons (last 25 years of F1)
   const currentYear = new Date().getFullYear();
@@ -175,12 +174,47 @@ const HistoryPage = () => {
     (_, i) => currentYear - i,
   ); // Handle season change
   const handleSeasonChange = (newSeason) => {
-    console.log(
-      '📅 Changing season to:',
-      newSeason,
-      'from current:',
-      selectedSeason,
-    );
+    // If it's the same season, still force a refresh of the data
+    // This helps when the "Current Season" button is clicked
+    if (newSeason === selectedSeason) {
+      // Set loading states to show refresh is happening
+      setLoadingDrivers(true);
+      setLoadingConstructors(true);
+      setLoadingOverview(true);
+
+      // Force a refresh by re-fetching the data
+      const year = parseInt(newSeason);
+
+      // Set a timeout to prevent infinite loading
+      const timeoutId = setTimeout(() => {
+        setLoadingDrivers(false);
+        setLoadingConstructors(false);
+        setLoadingOverview(false);
+      }, 30000); // 30 second timeout
+
+      const fetchData = async () => {
+        try {
+          await Promise.all([
+            fetchDriverStandings(year),
+            fetchConstructorStandings(year),
+          ]);
+
+          clearTimeout(timeoutId);
+          setLoadingDrivers(false);
+          setLoadingConstructors(false);
+          setLoadingOverview(false);
+        } catch (error) {
+          console.error('Error refreshing data:', error);
+          clearTimeout(timeoutId);
+          setLoadingDrivers(false);
+          setLoadingConstructors(false);
+          setLoadingOverview(false);
+        }
+      };
+
+      fetchData();
+      return; // Don't change the season or navigate if it's the same
+    }
 
     // Immediately show loading states for better UX
     setLoadingDrivers(true);
@@ -192,7 +226,6 @@ const HistoryPage = () => {
     navigate(`/history/${newSeason}`);
   }; // Handle view mode change
   const handleViewModeChange = (mode) => {
-    console.log('🔄 Changing view mode to:', mode, 'from current:', viewMode);
     setViewMode(mode);
 
     // Navigate to the correct URL based on mode
@@ -207,49 +240,83 @@ const HistoryPage = () => {
     }
   }; // Initialize with URL params or current season
   useEffect(() => {
-    console.log('🏁 Season Effect triggered:', { season, selectedSeason });
-
     if (season && season !== selectedSeason) {
-      console.log('📅 Updating season state from URL:', season);
       setSelectedSeason(season);
       setSelectedYear(parseInt(season));
     }
   }, [season]); // Only depend on season, not selectedSeason to avoid loops
   // Fetch historical data when selectedSeason changes
   useEffect(() => {
-    console.log('📊 Fetching data for season:', selectedSeason);
-
     if (selectedSeason) {
       const year = parseInt(selectedSeason);
+      let isCancelled = false; // To handle component unmount or race conditions
 
       // Set loading states
       setLoadingDrivers(true);
       setLoadingConstructors(true);
       setLoadingOverview(true);
 
+      // Clear any previous data to show loading immediately
+      // This ensures the UI reflects the loading state properly
+
+      // Set a timeout to prevent infinite loading (30 seconds)
+      const timeoutId = setTimeout(() => {
+        if (!isCancelled) {
+          setLoadingDrivers(false);
+          setLoadingConstructors(false);
+          setLoadingOverview(false);
+        }
+      }, 30000); // 30 second timeout
+
       // Fetch driver and constructor standings for the selected year
-      Promise.all([fetchDriverStandings(year), fetchConstructorStandings(year)])
-        .then(() => {
-          // Clear loading states after both requests complete
-          setLoadingDrivers(false);
-          setLoadingConstructors(false);
-          setLoadingOverview(false);
-        })
-        .catch((error) => {
+      const fetchData = async () => {
+        try {
+          // Fetch both in parallel
+          const [driverResults, constructorResults] = await Promise.all([
+            fetchDriverStandings(year),
+            fetchConstructorStandings(year),
+          ]);
+
+          // Clear the timeout since we completed successfully
+          clearTimeout(timeoutId);
+
+          // Only update state if the effect hasn't been cancelled
+          if (!isCancelled) {
+            // Add a small delay to ensure data has propagated
+            setTimeout(() => {
+              if (!isCancelled) {
+                setLoadingDrivers(false);
+                setLoadingConstructors(false);
+                setLoadingOverview(false);
+              }
+            }, 100);
+          }
+        } catch (error) {
           console.error('Error fetching historical data:', error);
-          setLoadingDrivers(false);
-          setLoadingConstructors(false);
-          setLoadingOverview(false);
-        });
+
+          // Clear the timeout since we completed (with error)
+          clearTimeout(timeoutId);
+
+          // Only update state if the effect hasn't been cancelled
+          if (!isCancelled) {
+            setLoadingDrivers(false);
+            setLoadingConstructors(false);
+            setLoadingOverview(false);
+          }
+        }
+      };
+
+      fetchData();
+
+      // Cleanup function to prevent state updates if component unmounts
+      // or if a new effect is triggered
+      return () => {
+        isCancelled = true;
+        clearTimeout(timeoutId);
+      };
     }
   }, [selectedSeason, fetchDriverStandings, fetchConstructorStandings]); // Determine current view from URL
   useEffect(() => {
-    console.log('🔍 URL Effect triggered:', {
-      pathname: location.pathname,
-      round,
-      pathSegments: location.pathname.split('/'),
-    });
-
     const pathSegments = location.pathname.split('/');
     // pathSegments = ['', 'history', 'season', 'mode/round']
 

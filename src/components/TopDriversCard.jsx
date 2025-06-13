@@ -313,8 +313,20 @@ const TopDriversCard = ({
           </div>
         ) : (
           <div className="text-center py-3">
-            <i className="fas fa-spinner fa-spin me-2"></i>
-            Loading championship data...
+            {loadingDrivers ? (
+              <>
+                <i className="fas fa-spinner fa-spin me-2"></i>
+                Loading championship data...
+              </>
+            ) : (
+              <>
+                <i
+                  className="fas fa-exclamation-triangle me-2"
+                  style={{ color: 'var(--f1-orange)' }}
+                ></i>
+                No championship data available for {selectedSeason}
+              </>
+            )}
           </div>
         )}
       </div>
