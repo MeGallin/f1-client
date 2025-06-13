@@ -27,7 +27,6 @@ import {
 // Import all the components we created
 import HistoryHeader from '../components/HistoryHeader';
 import SeasonControls from '../components/SeasonControls';
-import OverviewStats from '../components/OverviewStats';
 import TopDriversCard from '../components/TopDriversCard';
 import TopConstructorsCard from '../components/TopConstructorsCard';
 import DriversTable from '../components/DriversTable';
@@ -382,14 +381,6 @@ const HistoryPage = () => {
         {/* Overview Mode */}
         {viewMode === 'overview' && (
           <div className="row">
-            <OverviewStats
-              selectedSeason={selectedSeason}
-              loadingOverview={loadingOverview}
-              topDrivers={topDrivers}
-              topConstructors={topConstructors}
-              currentRace={currentRace}
-            />
-
             <div className="col-12 mb-4">
               <div className="row">
                 <div className="col-lg-6 mb-4">
@@ -458,9 +449,6 @@ const HistoryPage = () => {
           currentYear={currentYear}
           onSeasonChange={handleSeasonChange}
         />
-
-        {/* Racing Divider */}
-        <div className="f1-divider my-5"></div>
       </div>
 
       {/* Outlet for nested routes */}

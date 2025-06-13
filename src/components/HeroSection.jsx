@@ -7,7 +7,7 @@
 import React from 'react';
 
 const HeroSection = ({
-  title = 'F1 Live Dashboard',
+  title = 'F1 Dashboard',
   subtitle = 'Real-time Formula 1 championship data, race results, and live standings',
 }) => {
   return (

@@ -55,6 +55,7 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                 <table className="table table-hover mb-0">
                   <thead className="table-success">
                     <tr>
+                      {' '}
                       <th className="text-center user-select-none" width="50">
                         #
                       </th>
@@ -63,7 +64,7 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                       <th className="text-center">Points</th>
                       <th className="text-center">Wins</th>
                     </tr>
-                  </thead>{' '}
+                  </thead>
                   <tbody>
                     {topDrivers.map((driver, index) => (
                       <tr
@@ -171,6 +172,7 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                 <table className="table table-hover mb-0">
                   <thead className="table-danger">
                     <tr>
+                      {' '}
                       <th className="text-center user-select-none" width="50">
                         #
                       </th>
@@ -179,7 +181,7 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                       <th className="text-center">Points</th>
                       <th className="text-center">Wins</th>
                     </tr>
-                  </thead>{' '}
+                  </thead>
                   <tbody>
                     {topConstructors.map((constructor, index) => (
                       <tr
