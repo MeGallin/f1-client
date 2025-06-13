@@ -7,14 +7,17 @@ The f1-client project has been successfully cleaned up and optimized for both de
 ## 🗑️ Files Removed
 
 ### Unused Components
+
 - ❌ `F1DataDisplay.jsx` - Legacy component not being imported or used
 - ❌ `RaceResults.jsx` - Standalone component with Chart.js dependencies, not integrated
 
 ### Unused Dependencies
+
 - ❌ `chart.js` (^4.4.0) - Only used in removed RaceResults component
 - ❌ `react-chartjs-2` (^5.2.0) - Only used in removed RaceResults component
 
 ### Empty Files
+
 - ❌ `custom.scss` - Empty SCSS file (using custom.css instead)
 
 ## ✅ Current Project Structure
@@ -55,12 +58,14 @@ f1-client/
 ## 🔧 Environment Configuration
 
 ### Production (.env)
+
 - ✅ F1 MCP Server: `https://f1-mcp-server-5dh3.onrender.com`
 - ✅ LangGraph Agents: `https://f1-langgraph-agents-z8k9.onrender.com`
 - ✅ App Name: "F1 Data Explorer"
 - ✅ Version: "1.0.0"
 
 ### Development (.env.development)
+
 - ✅ F1 MCP Server: `http://localhost:3001`
 - ✅ LangGraph Agents: `http://localhost:3002`
 - ✅ App Name: "F1 Data Explorer (Dev)"
@@ -70,6 +75,7 @@ f1-client/
 ## 🚀 Build Verification
 
 ### ✅ Production Build
+
 ```bash
 npm run build
 ✓ Built successfully in ~2s
@@ -78,6 +84,7 @@ npm run build
 ```
 
 ### ✅ Development Build
+
 ```bash
 npm run build:dev
 ✓ Built successfully in ~2s
@@ -85,6 +92,7 @@ npm run build:dev
 ```
 
 ### ✅ Development Server
+
 ```bash
 npm run dev
 ✓ Starts on http://localhost:5174/
@@ -97,11 +105,11 @@ npm run dev
 ```json
 {
   "scripts": {
-    "dev": "vite",                    // Development server
-    "build": "vite build",            // Production build
+    "dev": "vite", // Development server
+    "build": "vite build", // Production build
     "build:dev": "vite build --mode development", // Dev build
-    "preview": "vite preview",        // Preview build
-    "test": "vitest",                 // Run tests
+    "preview": "vite preview", // Preview build
+    "test": "vitest", // Run tests
     "test:build": "npm run build && npm run build:dev && echo 'Both build modes successful'"
   }
 }
@@ -110,6 +118,7 @@ npm run dev
 ## 📦 Final Dependencies
 
 ### Production Dependencies (6)
+
 - ✅ `axios` - HTTP client for API calls
 - ✅ `bootstrap` - UI framework
 - ✅ `jotai` - State management
@@ -118,6 +127,7 @@ npm run dev
 - ✅ `react-dom` - React DOM
 
 ### Development Dependencies (5)
+
 - ✅ `@types/react` - React TypeScript types
 - ✅ `@types/react-dom` - React DOM TypeScript types
 - ✅ `@vitejs/plugin-react` - Vite React plugin

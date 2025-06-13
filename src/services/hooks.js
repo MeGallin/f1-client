@@ -18,20 +18,23 @@ export const useF1Data = (apiFn, dependencies = []) => {
   const [error, setError] = useState(null);
 
   // Function to fetch data
-  const fetchData = useCallback(async (useCache = true) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await apiFn(useCache);
-      setData(response);
-      return response;
-    } catch (err) {
-      setError(err);
-      console.error('Error fetching F1 data:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [apiFn]);
+  const fetchData = useCallback(
+    async (useCache = true) => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await apiFn(useCache);
+        setData(response);
+        return response;
+      } catch (err) {
+        setError(err);
+        console.error('Error fetching F1 data:', err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [apiFn],
+  );
 
   // Effect to fetch data on mount and when dependencies change
   useEffect(() => {
@@ -121,6 +124,18 @@ export const useDriver = (driverId) => {
 };
 
 /**
+ * Hook for a specific driver in a specific year
+ * @param {number} year - Season year
+ * @param {string} driverId - Driver ID
+ */
+export const useDriverByYear = (year, driverId) => {
+  return useF1Data(
+    () => F1API.DriversAPI.getDriverByYear(year, driverId),
+    [year, driverId],
+  );
+};
+
+/**
  * Hook for constructors (teams)
  */
 export const useConstructors = () => {
@@ -132,7 +147,10 @@ export const useConstructors = () => {
  * @param {number} year - Season year
  */
 export const useConstructorsByYear = (year) => {
-  return useF1Data(() => F1API.ConstructorsAPI.getConstructorsByYear(year), [year]);
+  return useF1Data(
+    () => F1API.ConstructorsAPI.getConstructorsByYear(year),
+    [year],
+  );
 };
 
 /**
@@ -140,16 +158,42 @@ export const useConstructorsByYear = (year) => {
  * @param {string} constructorId - Constructor ID
  */
 export const useConstructor = (constructorId) => {
-  return useF1Data(() => F1API.ConstructorsAPI.getConstructor(constructorId), [constructorId]);
+  return useF1Data(
+    () => F1API.ConstructorsAPI.getConstructor(constructorId),
+    [constructorId],
+  );
+};
+
+/**
+ * Hook for a specific constructor in a specific year
+ * @param {number} year - Season year
+ * @param {string} constructorId - Constructor ID
+ */
+export const useConstructorByYear = (year, constructorId) => {
+  return useF1Data(
+    () => F1API.ConstructorsAPI.getConstructorByYear(year, constructorId),
+    [year, constructorId],
+  );
+};
+
+/**
+ * Hook for race results by season
+ * @param {number} year - Season year
+ */
+export const useResultsBySeason = (year) => {
+  return useF1Data(() => F1API.ResultsAPI.getResultsBySeason(year), [year]);
 };
 
 /**
  * Hook for race results
  * @param {number} year - Season year
- * @param {number} round - Race round number 
+ * @param {number} round - Race round number
  */
 export const useRaceResults = (year, round) => {
-  return useF1Data(() => F1API.ResultsAPI.getRaceResults(year, round), [year, round]);
+  return useF1Data(
+    () => F1API.ResultsAPI.getRaceResults(year, round),
+    [year, round],
+  );
 };
 
 /**
@@ -158,7 +202,10 @@ export const useRaceResults = (year, round) => {
  * @param {number} round - Race round number
  */
 export const useQualifyingResults = (year, round) => {
-  return useF1Data(() => F1API.ResultsAPI.getQualifyingResults(year, round), [year, round]);
+  return useF1Data(
+    () => F1API.ResultsAPI.getQualifyingResults(year, round),
+    [year, round],
+  );
 };
 
 /**
@@ -174,7 +221,10 @@ export const useDriverStandings = (year) => {
  * @param {number} year - Season year
  */
 export const useConstructorStandings = (year) => {
-  return useF1Data(() => F1API.StandingsAPI.getConstructorStandings(year), [year]);
+  return useF1Data(
+    () => F1API.StandingsAPI.getConstructorStandings(year),
+    [year],
+  );
 };
 
 /**
@@ -201,13 +251,83 @@ export const useLapTimes = (year, round) => {
 };
 
 /**
+ * Hook for circuits in a specific season
+ * @param {number} year - Season year
+ */
+export const useCircuitsByYear = (year) => {
+  return useF1Data(() => F1API.CircuitsAPI.getCircuitsByYear(year), [year]);
+};
+
+/**
+ * Hook for a specific circuit
+ * @param {string} circuitId - Circuit ID
+ */
+export const useCircuit = (circuitId) => {
+  return useF1Data(() => F1API.CircuitsAPI.getCircuit(circuitId), [circuitId]);
+};
+
+/**
+ * Hook for driver lap times
+ * @param {number} year - Season year
+ * @param {number} round - Race round number
+ * @param {string} driverId - Driver ID
+ */
+export const useDriverLapTimes = (year, round, driverId) => {
+  return useF1Data(
+    () => F1API.LapsAPI.getDriverLapTimes(year, round, driverId),
+    [year, round, driverId],
+  );
+};
+
+/**
+ * Hook for specific lap
+ * @param {number} year - Season year
+ * @param {number} round - Race round number
+ * @param {number} lap - Lap number
+ */
+export const useSpecificLap = (year, round, lap) => {
+  return useF1Data(
+    () => F1API.LapsAPI.getSpecificLap(year, round, lap),
+    [year, round, lap],
+  );
+};
+
+/**
  * Hook for pit stops
  * @param {number} year - Season year
  * @param {number} round - Race round number
  */
 export const usePitStops = (year, round) => {
-  return useF1Data(() => F1API.PitStopsAPI.getPitStops(year, round), [year, round]);
+  return useF1Data(
+    () => F1API.PitStopsAPI.getPitStops(year, round),
+    [year, round],
+  );
 };
+
+/**
+ * Hook for driver pit stops
+ * @param {number} year - Season year
+ * @param {number} round - Race round number
+ * @param {string} driverId - Driver ID
+ */
+export const useDriverPitStops = (year, round, driverId) => {
+  return useF1Data(
+    () => F1API.PitStopsAPI.getDriverPitStops(year, round, driverId),
+    [year, round, driverId],
+  );
+};
+
+/**
+ * Hook for all status codes
+ */
+export const useAllStatusCodes = () => {
+  return useF1Data(F1API.StatusAPI.getAllStatusCodes);
+};
+
+/**
+ * Hook for all status codes (alias for useAllStatusCodes)
+ */
+export const useStatusCodes = useAllStatusCodes;
 
 /**
  * Hook for sprint results
@@ -215,7 +335,10 @@ export const usePitStops = (year, round) => {
  * @param {number} round - Race round number
  */
 export const useSprintResults = (year, round) => {
-  return useF1Data(() => F1API.SprintAPI.getSprintResults(year, round), [year, round]);
+  return useF1Data(
+    () => F1API.SprintAPI.getSprintResults(year, round),
+    [year, round],
+  );
 };
 
 // Export all hooks
@@ -231,9 +354,12 @@ export default {
   useDrivers,
   useDriversByYear,
   useDriver,
+  useDriverByYear,
   useConstructors,
   useConstructorsByYear,
   useConstructor,
+  useConstructorByYear,
+  useResultsBySeason,
   useRaceResults,
   useQualifyingResults,
   useDriverStandings,
@@ -243,4 +369,11 @@ export default {
   useLapTimes,
   usePitStops,
   useSprintResults,
+  useCircuitsByYear,
+  useCircuit,
+  useDriverLapTimes,
+  useSpecificLap,
+  useDriverPitStops,
+  useAllStatusCodes,
+  useStatusCodes,
 };
