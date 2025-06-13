@@ -92,7 +92,7 @@ export const raceCalendarAtom = atom((get) => {
 // =============================================================================
 
 /**
- * Derived atom: Top 5 drivers from current standings
+ * Derived atom: All drivers from current standings
  */
 export const topDriversAtom = atom((get) => {
   const standings = get(currentDriverStandingsAtom);
@@ -103,20 +103,19 @@ export const topDriversAtom = atom((get) => {
     return [];
   }
 
-  return standings.MRData.StandingsTable.StandingsLists[0].DriverStandings.slice(
-    0,
-    5,
-  ).map((standing) => ({
-    position: parseInt(standing.position),
-    driver: `${standing.Driver.givenName} ${standing.Driver.familyName}`,
-    constructor: standing.Constructors[0]?.name || 'N/A',
-    points: parseInt(standing.points),
-    wins: parseInt(standing.wins),
-  }));
+  return standings.MRData.StandingsTable.StandingsLists[0].DriverStandings.map(
+    (standing) => ({
+      position: parseInt(standing.position),
+      driver: `${standing.Driver.givenName} ${standing.Driver.familyName}`,
+      constructor: standing.Constructors[0]?.name || 'N/A',
+      points: parseInt(standing.points),
+      wins: parseInt(standing.wins),
+    }),
+  );
 });
 
 /**
- * Derived atom: Top 5 constructors from current standings
+ * Derived atom: All constructors from current standings
  */
 export const topConstructorsAtom = atom((get) => {
   const standings = get(currentConstructorStandingsAtom);
@@ -128,16 +127,15 @@ export const topConstructorsAtom = atom((get) => {
     return [];
   }
 
-  return standings.MRData.StandingsTable.StandingsLists[0].ConstructorStandings.slice(
-    0,
-    5,
-  ).map((standing) => ({
-    position: parseInt(standing.position),
-    name: standing.Constructor.name,
-    nationality: standing.Constructor.nationality,
-    points: parseInt(standing.points),
-    wins: parseInt(standing.wins),
-  }));
+  return standings.MRData.StandingsTable.StandingsLists[0].ConstructorStandings.map(
+    (standing) => ({
+      position: parseInt(standing.position),
+      name: standing.Constructor.name,
+      nationality: standing.Constructor.nationality,
+      points: parseInt(standing.points),
+      wins: parseInt(standing.wins),
+    }),
+  );
 });
 
 /**

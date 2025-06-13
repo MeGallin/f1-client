@@ -98,11 +98,16 @@ const RaceCountdown = ({
     return () => clearTimeout(timer);
   }, [timeLeft.seconds]);
   const timeUnits = [
-    { label: 'W', value: timeLeft.weeks },
-    { label: 'D', value: timeLeft.days },
-    { label: 'H', value: padWithZero(timeLeft.hours) },
-    { label: 'M', value: padWithZero(timeLeft.minutes) },
-    { label: 'S', value: padWithZero(timeLeft.seconds), pulse: true },
+    { label: 'WEEKS', shortLabel: 'W', value: timeLeft.weeks },
+    { label: 'DAYS', shortLabel: 'D', value: timeLeft.days },
+    { label: 'HOURS', shortLabel: 'H', value: padWithZero(timeLeft.hours) },
+    { label: 'MIN', shortLabel: 'M', value: padWithZero(timeLeft.minutes) },
+    {
+      label: 'SEC',
+      shortLabel: 'S',
+      value: padWithZero(timeLeft.seconds),
+      pulse: true,
+    },
   ];
 
   // Determine if we're in the last hour before the race
@@ -155,13 +160,17 @@ const RaceCountdown = ({
           textAlign: 'center',
         }}
       >
+        {' '}
         {displayUnits.map((unit, index) => (
           <div
-            key={unit.label}
+            key={unit.shortLabel}
             className="time-unit"
             style={{
               position: 'relative',
               padding: '0.25rem 0',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
             {' '}
@@ -183,9 +192,7 @@ const RaceCountdown = ({
                 color: 'var(--f1-white)',
                 borderRadius: 'var(--border-radius)',
                 fontSize:
-                  displayUnits.length > 4 && index === 0
-                    ? 'var(--text-md)'
-                    : 'var(--text-sm)',
+                  displayUnits.length > 4 && index === 0 ? '1.44rem' : '1.3rem',
                 fontWeight: 'var(--fw-black)',
                 fontFamily: 'var(--font-data)',
                 minWidth: '2rem',
@@ -222,16 +229,20 @@ const RaceCountdown = ({
               >
                 {unit.value}
               </span>
-            </div>
+            </div>{' '}
             <div
               className="time-label"
               style={{
                 fontFamily: 'var(--font-racing)',
-                color: 'var(--f1-grey-600)',
-                fontSize: '0.65rem',
+                color: 'var(--f1-grey-700)',
+                fontSize: '0.56rem',
                 fontWeight: 'var(--fw-bold)',
-                marginTop: '0.2rem',
+                marginTop: '0.4rem',
                 textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                textAlign: 'center',
+                lineHeight: '1',
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
               }}
             >
               {unit.label}

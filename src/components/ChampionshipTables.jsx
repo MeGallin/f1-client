@@ -63,9 +63,9 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                       <th className="text-center">Points</th>
                       <th className="text-center">Wins</th>
                     </tr>
-                  </thead>
+                  </thead>{' '}
                   <tbody>
-                    {topDrivers.slice(0, 5).map((driver, index) => (
+                    {topDrivers.map((driver, index) => (
                       <tr
                         key={driver.position}
                         className={`${
@@ -179,9 +179,9 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                       <th className="text-center">Points</th>
                       <th className="text-center">Wins</th>
                     </tr>
-                  </thead>
+                  </thead>{' '}
                   <tbody>
-                    {topConstructors.slice(0, 5).map((constructor, index) => (
+                    {topConstructors.map((constructor, index) => (
                       <tr
                         key={constructor.position}
                         className={`${

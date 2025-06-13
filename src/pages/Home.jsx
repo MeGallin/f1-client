@@ -57,33 +57,105 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      {/* F1 Racing Hero Section */}
+      {/* Enhanced F1 Racing Hero Section */}
       <HeroSection />
 
-      <div className="container py-4">
-        {/* F1 Racing Quick Stats Cards */}
-        <StatsCards
-          topDrivers={topDrivers}
-          topConstructors={topConstructors}
-          currentRace={currentRace}
-          nextRace={nextRace}
-          isLoading={isLoading}
-        />
+      {/* Main Content with Enhanced Spacing */}
+      <div className="container py-5">
+        {/* F1 Racing Quick Stats Cards with Animation */}
+        <div
+          className="mb-5"
+          style={{ animation: 'heroTextSlide 1s ease-out 0.5s both' }}
+        >
+          <StatsCards
+            topDrivers={topDrivers}
+            topConstructors={topConstructors}
+            currentRace={currentRace}
+            nextRace={nextRace}
+            isLoading={isLoading}
+          />
+        </div>
 
-        {/* F1 Racing Championship Standings */}
-        <ChampionshipTables
-          topDrivers={topDrivers}
-          topConstructors={topConstructors}
-        />
+        {/* Enhanced Championship Section */}
+        <div
+          className="mb-5"
+          style={{ animation: 'heroTextSlide 1s ease-out 0.8s both' }}
+        >
+          {/* Section Header */}
+          <div className="text-center mb-4">
+            <h2
+              className="display-5 fw-bold mb-4"
+              style={{
+                fontFamily: 'var(--font-racing)',
+                color: 'var(--f1-grey-900)',
+                letterSpacing: '-1px',
+                fontSize: '2.5rem',
+                fontWeight: 'var(--fw-black)',
+                position: 'relative',
+              }}
+            >
+              Current Season Leaders
+              {/* Decorative accent line */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-8px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  width: '80px',
+                  height: '3px',
+                  background:
+                    'linear-gradient(90deg, var(--f1-red), var(--f1-gold))',
+                  borderRadius: '2px',
+                }}
+              ></div>
+            </h2>
+            <p
+              className="lead mb-5"
+              style={{
+                fontFamily: 'var(--font-primary)',
+                maxWidth: '650px',
+                margin: '0 auto 3rem auto',
+                color: 'var(--f1-grey-700)',
+                fontSize: '1.15rem',
+                lineHeight: '1.6',
+                fontWeight: 'var(--fw-medium)',
+              }}
+            >
+              Follow the championship battle live with up-to-date driver and
+              constructor standings
+            </p>
 
-        {/* F1 Racing Latest Race Information */}
-        <LatestRaceInfo currentRace={currentRace} />
+            {/* Enhanced horizontal divider */}
+            <div
+              style={{
+                width: '100%',
+                height: '1px',
+                background:
+                  'linear-gradient(90deg, transparent 0%, var(--f1-red-primary) 30%, var(--f1-gold) 50%, var(--f1-red-primary) 70%, transparent 100%)',
+                marginBottom: '2.5rem',
+                opacity: 0.6,
+              }}
+            ></div>
+          </div>
 
-        {/* F1 Racing Quick Actions */}
-        <QuickActions />
+          {/* Championship Tables with Enhanced Cards */}
+          <div className="f1-card-enhanced">
+            <ChampionshipTables
+              topDrivers={topDrivers}
+              topConstructors={topConstructors}
+            />
+          </div>
+        </div>
 
-        {/* Racing Divider */}
-        <div className="f1-divider my-5"></div>
+        {/* Enhanced Quick Actions Section */}
+        <div
+          className="mb-5"
+          style={{ animation: 'heroTextSlide 1s ease-out 1.1s both' }}
+        >
+          {/* Enhanced Quick Actions */}
+          <QuickActions />
+        </div>
       </div>
     </div>
   );

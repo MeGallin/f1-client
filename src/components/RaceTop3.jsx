@@ -30,65 +30,124 @@ const RaceTop3 = ({ top3Finishers, isLoading }) => {
     2: 'var(--f1-grey-400)',
     3: 'var(--f1-bronze)',
   };
-
   return (
-    <div className="f1-top3-results mt-2">
-      {' '}
-      <h6
-        style={{
-          fontFamily: 'var(--font-racing)',
-          color: 'var(--f1-grey-800)',
-          textTransform: 'uppercase',
-          fontSize: 'var(--text-sm)',
-          marginBottom: '0.5rem',
-          borderLeft: '3px solid var(--f1-red-primary)',
-          paddingLeft: '0.5rem',
-          display: 'flex',
-          alignItems: 'center',
-        }}
+    <div className="f1-top3-results">
+      <div
+        className="f1-top3-grid"
+        style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
       >
-        <i
-          className="fas fa-trophy me-2"
-          style={{ color: 'var(--f1-gold)' }}
-        ></i>
-        PODIUM FINISHERS
-      </h6>
-      <div className="f1-top3-grid">
         {top3Finishers.map((result) => (
           <div
             key={result.position}
             className="f1-top3-item"
             style={{
-              marginBottom: '0.25rem',
               display: 'flex',
               alignItems: 'center',
+              padding: '0.5rem',
+              background: `${positionColors[result.position]}08`,
+              borderRadius: '8px',
+              border: `1px solid ${positionColors[result.position]}20`,
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = `${
+                positionColors[result.position]
+              }15`;
+              e.target.style.borderColor = `${
+                positionColors[result.position]
+              }40`;
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = `${
+                positionColors[result.position]
+              }08`;
+              e.target.style.borderColor = `${
+                positionColors[result.position]
+              }20`;
             }}
           >
             {' '}
             <div
               className="f1-position"
               style={{
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: '0.85rem',
+                color:
+                  result.position === 2
+                    ? 'var(--f1-grey-900)'
+                    : 'var(--f1-white)',
+                fontWeight: 'var(--fw-black)',
+                fontSize: '0.9rem',
                 marginRight: '0.75rem',
-                width: '1.5rem',
-                height: '1.5rem',
-                backgroundColor: positionColors[result.position],
+                width: '2rem',
+                height: '2rem',
+                background:
+                  result.position === 1
+                    ? 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)'
+                    : result.position === 2
+                    ? 'linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%)'
+                    : 'linear-gradient(135deg, #CD7F32 0%, #B8860B 100%)',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                boxShadow:
+                  result.position === 1
+                    ? '0 4px 12px rgba(255, 215, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+                    : result.position === 2
+                    ? '0 4px 12px rgba(192, 192, 192, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.5)'
+                    : '0 4px 12px rgba(205, 127, 50, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                fontFamily: 'var(--font-racing)',
+                textShadow:
+                  result.position === 2
+                    ? 'none'
+                    : '0 1px 2px rgba(0, 0, 0, 0.3)',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                position: 'relative',
               }}
             >
+              {/* Medal icon for accessibility */}
+              <span
+                style={{
+                  position: 'absolute',
+                  top: '-4px',
+                  right: '-4px',
+                  fontSize: '0.6rem',
+                  opacity: 0.8,
+                }}
+              >
+                {result.position === 1
+                  ? '🥇'
+                  : result.position === 2
+                  ? '🥈'
+                  : '🥉'}
+              </span>
               {result.position}
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <div style={{ fontWeight: 'bold', color: 'var(--f1-grey-800)' }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  fontWeight: 'var(--fw-semibold)',
+                  color: 'var(--f1-grey-900)',
+                  fontSize: '0.85rem',
+                  fontFamily: 'var(--font-primary)',
+                  marginBottom: '0.1rem',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 {result.driver}
               </div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--f1-grey-600)' }}>
+              <div
+                style={{
+                  fontSize: '0.75rem',
+                  color: positionColors[result.position],
+                  fontWeight: 'var(--fw-medium)',
+                  fontFamily: 'var(--font-primary)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 {result.constructor}
               </div>
             </div>
