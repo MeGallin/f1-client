@@ -11,7 +11,26 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false, // Disable in production for smaller bundle
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,  // Remove console statements in production
+        drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor dependencies
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          state: ['jotai'],
+          http: ['axios'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000, // Increase chunk size limit
   },
   preview: {
     port: 5173,

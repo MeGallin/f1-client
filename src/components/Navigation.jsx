@@ -5,11 +5,11 @@
  * active route highlighting and responsive design.
  */
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { APP_CONFIG } from '../config';
 
-const Navigation = () => {
+const Navigation = memo(() => {
   const location = useLocation();
 
   const isActive = (path) => {
@@ -267,6 +267,8 @@ const Navigation = () => {
       </div>
     </nav>
   );
-};
+});
+
+Navigation.displayName = 'Navigation';
 
 export default Navigation;
