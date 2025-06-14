@@ -7,14 +7,16 @@ import {
   // Data atoms
   seasonsAtom,
   currentSeasonAtom,
+} from '../atoms/dataAtoms';
+import {
   // Derived atoms
   availableYearsAtom,
-} from '../atoms';
+} from '../atoms/derivedAtoms';
 import {
   // Action atoms
   fetchSeasonsAtom,
   fetchCurrentSeasonAtom,
-} from '../actions';
+} from '../actions/seasonActions';
 
 /**
  * Hook for seasons data with fetch capability

@@ -13,7 +13,8 @@ import {
   selectedConstructorAtom,
   selectedCircuitAtom,
 } from '../atoms/configAtoms';
-import { setSelectedYearAtom, setSelectedRoundAtom } from '../actions';
+import { setSelectedYearAtom } from '../actions/seasonActions';
+import { setSelectedRoundAtom } from '../actions/raceActions';
 
 // =============================================================================
 // CONFIGURATION HOOKS

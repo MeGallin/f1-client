@@ -1534,56 +1534,78 @@ body {
   transform: translateX(4px);
 }
 
-/* ⚡ MODERN CARD GRID ENHANCEMENTS */
-.modern-f1-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+/* 🏆 ENHANCED PODIUM STYLES for Championship Podium & Constructor Elite */
+.podium-step {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-/* 📱 MOBILE OPTIMIZATIONS for Modern Cards */
-@media (max-width: 992px) {
-  .modern-f1-card {
-    min-height: 260px;
-  }
+.podium-step:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
 
-  .modern-f1-card-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
+.podium-step.podium-winner:hover {
+  transform: scale(1.08) translateY(-12px);
+  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.4) !important;
+}
+
+/* Pulse Glow Animation for Headers */
+@keyframes pulseGlow {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
+/* Podium Number Animations */
+.podium-step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.podium-step:hover::before {
+  transform: translateX(100%);
+}
+
+/* Enhanced Interactive Elements */
+.modern-f1-card .btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4) !important;
+}
+
+/* Responsive Podium Adjustments */
 @media (max-width: 768px) {
-  .modern-f1-card {
-    min-height: 240px;
-    margin-bottom: 1rem;
+  .podium-step {
+    min-height: 50px !important;
+    padding: 1rem 0.5rem !important;
+    font-size: 1.4rem !important;
   }
-
-  .modern-f1-card-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  
+  .podium-step.podium-winner {
+    min-height: 65px !important;
+    transform: scale(1.02) translateY(-5px) !important;
   }
-}
-
-/* 🎨 ENHANCED LOADING STATES */
-.modern-f1-card .f1-loader {
-  border: 3px solid rgba(var(--accent-color), 0.1);
-  border-top: 3px solid var(--accent-color, #dc2626);
-}
-
-/* ✨ GRADIENT ACCENTS for Section Dividers */
-.modern-card-divider {
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--f1-red-primary) 20%,
-    var(--f1-gold) 50%,
-    var(--f1-red-primary) 80%,
-    transparent 100%
-  );
-  border-radius: 1px;
-  margin: 0.75rem 0;
-  opacity: 0.6;
+  
+  .podium-step:hover {
+    transform: translateY(-2px) scale(1.01) !important;
+  }
+  
+  .podium-step.podium-winner:hover {
+    transform: scale(1.05) translateY(-7px) !important;
+  }
 }

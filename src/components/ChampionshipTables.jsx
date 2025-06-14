@@ -55,7 +55,6 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                 <table className="table table-hover mb-0">
                   <thead className="table-success">
                     <tr>
-                      {' '}
                       <th className="text-center user-select-none" width="50">
                         #
                       </th>
@@ -172,7 +171,6 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                 <table className="table table-hover mb-0">
                   <thead className="table-danger">
                     <tr>
-                      {' '}
                       <th className="text-center user-select-none" width="50">
                         #
                       </th>
