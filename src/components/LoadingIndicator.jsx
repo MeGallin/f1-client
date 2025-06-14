@@ -4,18 +4,18 @@
  * Enhanced with routing-specific loading messages
  */
 
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useIsLoading, useHasError, useErrorStates } from '../state';
 
-export const LoadingIndicator = () => {
+export const LoadingIndicator = memo(() => {
   const isLoading = useIsLoading();
   const hasError = useHasError();
   const errorStates = useErrorStates();
   const location = useLocation();
 
-  // Determine loading message based on current route
-  const getLoadingMessage = () => {
+  // Memoize loading message based on current route
+  const loadingMessage = useMemo(() => {
     if (location.pathname === '/') {
       return 'Loading live F1 dashboard data...';
     }
@@ -28,7 +28,7 @@ export const LoadingIndicator = () => {
       return 'Loading historical F1 data...';
     }
     return 'Loading F1 data...';
-  };
+  }, [location.pathname]);
 
   if (!isLoading && !hasError) {
     return null;
@@ -49,7 +49,7 @@ export const LoadingIndicator = () => {
               >
                 <span className="visually-hidden">Loading...</span>
               </div>
-              <span>{getLoadingMessage()}</span>
+              <span>{loadingMessage}</span>
             </div>
           </div>
         )}
@@ -74,6 +74,8 @@ export const LoadingIndicator = () => {
       </div>
     </div>
   );
-};
+});
+
+LoadingIndicator.displayName = 'LoadingIndicator';
 
 export default LoadingIndicator;
