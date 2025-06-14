@@ -79,7 +79,8 @@ const SeasonControls = ({
                       fontFamily: 'var(--font-primary)',
                       fontSize: '0.95rem',
                       fontWeight: 'var(--fw-semibold)',
-                      transition: 'all 0.3s ease',                      background:
+                      transition: 'all 0.3s ease',
+                      background:
                         loadingDrivers || loadingConstructors || loadingOverview
                           ? 'var(--f1-grey-100)'
                           : 'var(--f1-white)',
