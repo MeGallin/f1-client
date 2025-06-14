@@ -16,10 +16,90 @@ const apiClient = axios.create({
   },
 });
 
-// Response caching mechanism
-const cache = new Map();
+// Response caching mechanism with size limit and LRU eviction
+class CacheManager {
+  constructor(maxSize = 100, ttl = 300000) {
+    this.cache = new Map();
+    this.maxSize = maxSize;
+    this.ttl = ttl;
+  }
 
-// Request queue for rate limiting
+  get(key) {
+    const item = this.cache.get(key);
+    if (!item) return null;
+    
+    if (Date.now() - item.timestamp > this.ttl) {
+      this.cache.delete(key);
+      return null;
+    }
+    
+    // Move to end for LRU
+    this.cache.delete(key);
+    this.cache.set(key, item);
+    return item.data;
+  }
+
+  set(key, data) {
+    // Remove oldest if at capacity
+    if (this.cache.size >= this.maxSize) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    
+    this.cache.set(key, {
+      data,
+      timestamp: Date.now()
+    });
+  }
+
+  clear() {
+    this.cache.clear();
+  }
+
+  size() {
+    return this.cache.size;
+  }
+}
+
+const cache = new CacheManager();
+
+// Circuit breaker pattern for API resilience
+class CircuitBreaker {
+  constructor(failureThreshold = 5, timeout = 60000) {
+    this.failureThreshold = failureThreshold;
+    this.timeout = timeout;
+    this.failureCount = 0;
+    this.lastFailureTime = null;
+    this.state = 'CLOSED'; // CLOSED, OPEN, HALF_OPEN
+  }
+
+  canExecute() {
+    if (this.state === 'CLOSED') return true;
+    if (this.state === 'OPEN') {
+      if (Date.now() - this.lastFailureTime >= this.timeout) {
+        this.state = 'HALF_OPEN';
+        return true;
+      }
+      return false;
+    }
+    return true; // HALF_OPEN
+  }
+
+  onSuccess() {
+    this.failureCount = 0;
+    this.state = 'CLOSED';
+  }
+
+  onFailure() {
+    this.failureCount++;
+    this.lastFailureTime = Date.now();
+    if (this.failureCount >= this.failureThreshold) {
+      this.state = 'OPEN';
+    }
+  }
+}
+
+// Request queue for rate limiting with circuit breaker
 class RequestQueue {
   constructor(maxConcurrent = 3, delayBetweenRequests = 500) {
     this.maxConcurrent = maxConcurrent;
@@ -27,10 +107,15 @@ class RequestQueue {
     this.currentRequests = 0;
     this.queue = [];
     this.lastRequestTime = 0;
+    this.circuitBreaker = new CircuitBreaker();
   }
 
   async add(requestFn) {
     return new Promise((resolve, reject) => {
+      if (!this.circuitBreaker.canExecute()) {
+        reject(new Error('Circuit breaker is OPEN - API temporarily unavailable'));
+        return;
+      }
       this.queue.push({ requestFn, resolve, reject });
       this.processQueue();
     });
@@ -55,8 +140,10 @@ class RequestQueue {
 
       this.lastRequestTime = Date.now();
       const result = await requestFn();
+      this.circuitBreaker.onSuccess();
       resolve(result);
     } catch (error) {
+      this.circuitBreaker.onFailure();
       reject(error);
     } finally {
       this.currentRequests--;
@@ -80,14 +167,13 @@ const requestQueue = new RequestQueue(
  */
 const makeRequest = async (endpoint, params = {}, useCache = true) => {
   const cacheKey = `${endpoint}-${JSON.stringify(params)}`;
+  
   // Check cache if enabled
-  if (useCache && cache.has(cacheKey)) {
+  if (useCache) {
     const cachedData = cache.get(cacheKey);
-    if (Date.now() - cachedData.timestamp < CACHE_CONFIG.duration) {
-      return cachedData.data;
+    if (cachedData) {
+      return cachedData;
     }
-    // Cache expired, remove it
-    cache.delete(cacheKey);
   }
 
   // Add request to queue for rate limiting
@@ -101,10 +187,7 @@ const makeRequest = async (endpoint, params = {}, useCache = true) => {
 
         // Cache the response if caching is enabled
         if (useCache) {
-          cache.set(cacheKey, {
-            data: response.data,
-            timestamp: Date.now(),
-          });
+          cache.set(cacheKey, response.data);
         }
 
         return response.data;
@@ -112,31 +195,40 @@ const makeRequest = async (endpoint, params = {}, useCache = true) => {
         // Handle rate limiting specifically
         if (error.response?.status === 429) {
           const retryAfter = error.response.headers['retry-after'] || 2;
-          console.warn(
-            `Rate limited. Waiting ${retryAfter} seconds before retry...`,
-          );
+          if (typeof window !== 'undefined' && window.console) {
+            console.warn(`Rate limited. Waiting ${retryAfter} seconds before retry...`);
+          }
           await new Promise((resolve) =>
             setTimeout(resolve, retryAfter * 1000),
           );
         }
 
         if (retries === 0) {
-          console.error(
-            `API request failed after ${API_CONFIG.retries} retries:`,
-            {
+          // Enhanced error with context for better debugging
+          const enhancedError = new Error(`API request failed: ${error.message}`);
+          enhancedError.originalError = error;
+          enhancedError.endpoint = endpoint;
+          enhancedError.params = params;
+          enhancedError.status = error.response?.status;
+          enhancedError.circuitBreakerState = requestQueue.circuitBreaker.state;
+          
+          if (typeof window !== 'undefined' && window.console) {
+            console.error('API request failed after retries:', {
               endpoint,
               params,
               error: error.message,
               status: error.response?.status,
-            },
-          );
-          throw error;
-        } // Wait before retrying (exponential backoff)
-        const delay =
-          Math.pow(
-            API_CONFIG.rateLimit.retryDelayMultiplier,
-            API_CONFIG.retries - retries,
-          ) * 1000;
+              circuitBreakerState: requestQueue.circuitBreaker.state
+            });
+          }
+          throw enhancedError;
+        }
+        
+        // Wait before retrying (exponential backoff)
+        const delay = Math.min(
+          Math.pow(API_CONFIG.rateLimit.retryDelayMultiplier, API_CONFIG.retries - retries) * 1000,
+          30000 // Max 30 seconds
+        );
         await new Promise((resolve) => setTimeout(resolve, delay));
         retries--;
       }
@@ -452,6 +544,21 @@ export const SprintAPI = {
     makeRequest(`/${year}/${round}/sprint`, {}, useCache),
 };
 
+// API Health monitoring
+export const APIHealth = {
+  getMetrics: () => ({
+    cacheSize: cache.size(),
+    queueSize: requestQueue.queue.length,
+    activeRequests: requestQueue.currentRequests,
+    circuitBreakerState: requestQueue.circuitBreaker.state,
+    circuitBreakerFailures: requestQueue.circuitBreaker.failureCount
+  }),
+  
+  clearCache: () => cache.clear(),
+  
+  isHealthy: () => requestQueue.circuitBreaker.state !== 'OPEN'
+};
+
 // Export combined API
 export default {
   SeasonsAPI,
@@ -465,4 +572,5 @@ export default {
   PitStopsAPI,
   StatusAPI,
   SprintAPI,
+  APIHealth,
 };

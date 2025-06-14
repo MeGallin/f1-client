@@ -34,7 +34,8 @@ const TopConstructorsCard = ({
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'linear-gradient(45deg, rgba(220,38,38,0.15) 0%, transparent 50%)',
+            background:
+              'linear-gradient(45deg, rgba(220,38,38,0.15) 0%, transparent 50%)',
             animation: 'pulseGlow 4s ease-in-out infinite',
           }}
         ></div>
@@ -52,9 +53,9 @@ const TopConstructorsCard = ({
           >
             CONSTRUCTOR ELITE
           </h5>
-          <p 
-            className="mb-0" 
-            style={{ 
+          <p
+            className="mb-0"
+            style={{
               fontSize: '0.85rem',
               opacity: 0.9,
               fontWeight: 'var(--fw-medium)',
@@ -68,7 +69,7 @@ const TopConstructorsCard = ({
       {/* Card Body */}
       <div
         className="card-body"
-        style={{ 
+        style={{
           background: 'var(--f1-white)',
           padding: '2rem 1.5rem',
           borderRadius: '0 0 16px 16px',
@@ -76,11 +77,8 @@ const TopConstructorsCard = ({
       >
         {loadingConstructors ? (
           <div className="text-center py-4">
-            <div 
-              className="f1-loader mb-3"
-              style={{ margin: '0 auto' }}
-            ></div>
-            <h6 
+            <div className="f1-loader mb-3" style={{ margin: '0 auto' }}></div>
+            <h6
               style={{
                 fontFamily: 'var(--font-racing)',
                 color: 'var(--f1-grey-800)',
@@ -90,26 +88,23 @@ const TopConstructorsCard = ({
             >
               Loading Constructor Elite...
             </h6>
-            <p 
-              className="text-muted mb-0"
-              style={{ fontSize: '0.9rem' }}
-            >
+            <p className="text-muted mb-0" style={{ fontSize: '0.9rem' }}>
               Fetching {selectedSeason} constructor standings
             </p>
           </div>
         ) : topConstructors && topConstructors.length >= 3 ? (
           <>
             {/* Podium Layout - Based on Mockup Design */}
-            <div 
+            <div
               className="d-flex justify-content-center align-items-end mb-4"
               style={{ gap: '1rem' }}
             >
-              
               {/* 2nd Place - Silver */}
               <div className="text-center" style={{ flex: '0 0 28%' }}>
                 <div
                   style={{
-                    background: 'linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 100%)',
+                    background:
+                      'linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 100%)',
                     color: 'var(--f1-grey-900)',
                     borderRadius: '12px',
                     padding: '1.25rem 0.75rem',
@@ -130,7 +125,7 @@ const TopConstructorsCard = ({
                   2
                 </div>
                 <div className="mt-3">
-                  <p 
+                  <p
                     className="mb-1"
                     style={{
                       fontFamily: 'var(--font-racing)',
@@ -142,7 +137,7 @@ const TopConstructorsCard = ({
                   >
                     {topConstructors[1]?.name}
                   </p>
-                  <p 
+                  <p
                     className="mb-0"
                     style={{
                       color: 'var(--f1-red-primary)',
@@ -183,7 +178,7 @@ const TopConstructorsCard = ({
                   1
                 </div>
                 <div className="mt-3">
-                  <p 
+                  <p
                     className="mb-1"
                     style={{
                       fontFamily: 'var(--font-racing)',
@@ -197,7 +192,7 @@ const TopConstructorsCard = ({
                   >
                     {topConstructors[0]?.name}
                   </p>
-                  <p 
+                  <p
                     className="mb-0"
                     style={{
                       color: 'var(--f1-red-primary)',
@@ -207,7 +202,8 @@ const TopConstructorsCard = ({
                       letterSpacing: '0.5px',
                     }}
                   >
-                    {topConstructors[0]?.points} PTS • {topConstructors[0]?.wins || 0} WINS
+                    {topConstructors[0]?.points} PTS •{' '}
+                    {topConstructors[0]?.wins || 0} WINS
                   </p>
                 </div>
               </div>
@@ -216,7 +212,8 @@ const TopConstructorsCard = ({
               <div className="text-center" style={{ flex: '0 0 28%' }}>
                 <div
                   style={{
-                    background: 'linear-gradient(135deg, #CD7F32 0%, #D4AF37 100%)',
+                    background:
+                      'linear-gradient(135deg, #CD7F32 0%, #D4AF37 100%)',
                     color: 'var(--f1-white)',
                     borderRadius: '12px',
                     padding: '1.25rem 0.75rem',
@@ -237,7 +234,7 @@ const TopConstructorsCard = ({
                   3
                 </div>
                 <div className="mt-3">
-                  <p 
+                  <p
                     className="mb-1"
                     style={{
                       fontFamily: 'var(--font-racing)',
@@ -249,7 +246,7 @@ const TopConstructorsCard = ({
                   >
                     {topConstructors[2]?.name}
                   </p>
-                  <p 
+                  <p
                     className="mb-0"
                     style={{
                       color: 'var(--f1-red-primary)',
@@ -297,7 +294,7 @@ const TopConstructorsCard = ({
           </>
         ) : (
           <div className="text-center py-4">
-            <h6 
+            <h6
               style={{
                 fontFamily: 'var(--font-racing)',
                 color: 'var(--f1-grey-600)',
