@@ -38,6 +38,20 @@ const RacesView = ({ selectedSeason }) => {
   // Get race list from API data
   const raceList = races?.MRData?.RaceTable?.Races || [];
 
+  // Function to check if a race has been completed (date has passed)
+  const isRaceCompleted = (raceDate) => {
+    const today = new Date();
+    const race = new Date(raceDate);
+
+    // Set time to end of day for race date to account for timezone differences
+    race.setHours(23, 59, 59, 999);
+
+    return race < today;
+  };
+
+  // Filter races to only show completed ones
+  const completedRaces = raceList.filter((race) => isRaceCompleted(race.date));
+
   // Handle race selection
   const handleRaceSelect = (race) => {
     setSelectedRace(race);
@@ -66,45 +80,65 @@ const RacesView = ({ selectedSeason }) => {
           <div
             className="card-header"
             style={{
-              background: 'var(--f1-gradient-champion)',
-              color: 'var(--f1-white)',
+              background: 'linear-gradient(135deg, #FFC107 0%, #FF8F00 100%)',
+              color: 'var(--f1-grey-900)',
               borderRadius:
                 'var(--border-radius-lg) var(--border-radius-lg) 0 0',
             }}
           >
-            <h5
-              className="mb-0"
+            <h3
+              className="fw-bold mb-0"
               style={{
                 fontFamily: 'var(--font-racing)',
-                fontWeight: 'var(--fw-bold)',
                 textTransform: 'uppercase',
-                letterSpacing: '1px',
+                letterSpacing: '1.5px',
               }}
             >
-              <i className="fas fa-flag-checkered me-2"></i>
-              Race Calendar - {selectedSeason}
-            </h5>
+              RACE CALENDAR & TELEMETRY - {selectedSeason}
+            </h3>
           </div>
           <div className="card-body">
             {/* Race Selection */}
             <div className="row mb-4">
               <div className="col-12">
-                <h6>Select a Race:</h6>
-                <div className="d-flex flex-wrap gap-2">
-                  {raceList.map((race) => (
+                <p
+                  className="mb-3 fw-semibold"
+                  style={{ letterSpacing: '0.05em' }}
+                >
+                  Select a Race:
+                </p>
+                <div className="d-flex flex-wrap gap-2 mb-4">
+                  {completedRaces.map((race) => (
                     <button
                       key={race.round}
+                      type="button"
                       className={`btn ${
                         selectedRace?.round === race.round
                           ? 'btn-primary'
                           : 'btn-outline-primary'
-                      } btn-sm`}
+                      } rounded-pill px-3 py-1 text-nowrap fw-medium shadow-sm`}
+                      style={{ fontFamily: "'Orbitron', monospace" }}
                       onClick={() => handleRaceSelect(race)}
                     >
                       R{race.round} - {race.raceName}
                     </button>
                   ))}
                 </div>
+
+                {!selectedRace && (
+                  <div
+                    className="text-center text-muted fst-italic"
+                    style={{ fontFamily: "'Orbitron', monospace" }}
+                  >
+                    Select a completed race to view detailed results
+                    <br />
+                    <small className="fw-light">
+                      Only completed races are shown. Choose from the race
+                      calendar above to see qualifying, race results, lap times,
+                      and pit stop data.
+                    </small>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -189,13 +223,13 @@ const RacesView = ({ selectedSeason }) => {
             )}
 
             {/* No race selected message */}
-            {!selectedRace && (
+            {!selectedRace && completedRaces.length === 0 && (
               <div className="text-center py-5">
                 <i className="fas fa-flag-checkered fa-3x text-muted mb-3"></i>
-                <h5>Select a race to view detailed results</h5>
+                <h5>No completed races available</h5>
                 <p className="text-muted">
-                  Choose from the race calendar above to see qualifying, race
-                  results, lap times, and pit stop data.
+                  There are no completed races for this season yet. Please check
+                  back after races have been completed.
                 </p>
               </div>
             )}

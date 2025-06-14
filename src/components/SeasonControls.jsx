@@ -185,7 +185,7 @@ const SeasonControls = ({
                   }}
                 >
                   <i className="fas fa-calendar-day me-1"></i>
-                  Current
+                  Current Season
                 </button>
               </div>
             </div>
