@@ -150,16 +150,15 @@ export const historicalTopDriversAtom = atom((get) => {
     return [];
   }
 
-  return standings.MRData.StandingsTable.StandingsLists[0].DriverStandings.slice(
-    0,
-    5,
-  ).map((standing) => ({
-    position: parseInt(standing.position),
-    driver: `${standing.Driver.givenName} ${standing.Driver.familyName}`,
-    constructor: standing.Constructors[0]?.name || 'N/A',
-    points: parseInt(standing.points),
-    wins: parseInt(standing.wins),
-  }));
+  return standings.MRData.StandingsTable.StandingsLists[0].DriverStandings.map(
+    (standing) => ({
+      position: parseInt(standing.position),
+      driver: `${standing.Driver.givenName} ${standing.Driver.familyName}`,
+      constructor: standing.Constructors[0]?.name || 'N/A',
+      points: parseInt(standing.points),
+      wins: parseInt(standing.wins),
+    }),
+  );
 });
 
 /**
@@ -175,14 +174,13 @@ export const historicalTopConstructorsAtom = atom((get) => {
     return [];
   }
 
-  return standings.MRData.StandingsTable.StandingsLists[0].ConstructorStandings.slice(
-    0,
-    5,
-  ).map((standing) => ({
-    position: parseInt(standing.position),
-    name: standing.Constructor.name,
-    nationality: standing.Constructor.nationality,
-    points: parseInt(standing.points),
-    wins: parseInt(standing.wins),
-  }));
+  return standings.MRData.StandingsTable.StandingsLists[0].ConstructorStandings.map(
+    (standing) => ({
+      position: parseInt(standing.position),
+      name: standing.Constructor.name,
+      nationality: standing.Constructor.nationality,
+      points: parseInt(standing.points),
+      wins: parseInt(standing.wins),
+    }),
+  );
 });
