@@ -4,8 +4,8 @@ A modern React-based web application for exploring Formula 1 data using the F1 M
 
 ## 🏁 Features
 
-- **Live F1 Data**: Current season information, race schedules, driver standings
-- **Interactive Dashboard**: Real-time system health monitoring and quick actions
+- **F1 Data**: Current season information, race schedules, driver standings
+- **Interactive Dashboard**: System health monitoring and quick actions
 - **Modern UI**: Bootstrap-based responsive design with F1 theme
 - **State Management**: Powered by Jotai for efficient state handling
 - **Production Ready**: Configured for deployment with environment-specific settings
@@ -44,7 +44,7 @@ npm run dev
 - **API Integration**: Direct connection to F1 MCP Server
 - **Build Tool**: Vite for fast development and optimized builds
 
-## 🌐 Live Integration
+## 🌐 Production Integration
 
 - **F1 MCP Server**: https://f1-mcp-server-5dh3.onrender.com
 - **F1 API Proxy**: https://f1-api-proxy.onrender.com

@@ -102,7 +102,7 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                 >
                   Loading Championship Standings
                 </h6>
-                <p className="text-muted mb-0">Fetching live driver data...</p>
+                <p className="text-muted mb-0">Fetching driver data...</p>
               </div>
             )}
           </div>
@@ -221,7 +221,7 @@ const ChampionshipTables = ({ topDrivers, topConstructors }) => {
                   Loading Constructor Standings
                 </h6>
                 <p className="text-muted mb-0">
-                  Fetching live constructor data...
+                  Fetching constructor data...
                 </p>
               </div>
             )}

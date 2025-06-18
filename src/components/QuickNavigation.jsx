@@ -52,7 +52,7 @@ const QuickNavigation = ({ selectedSeason, currentYear, onSeasonChange }) => {
                   }}
                 >
                   <i className="fas fa-home me-1"></i>
-                  Back to Live Dashboard
+                  Back to F1 Dashboard
                 </Link>
               </div>
               <div className="col-md-3">

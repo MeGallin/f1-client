@@ -1,5 +1,5 @@
 /**
- * Home Page - Live F1 Dashboard
+ * Home Page - F1 Dashboard
  *
  * Landing page displaying ALL current F1 information using reusable components
  */
@@ -122,7 +122,7 @@ const HomePage = () => {
                 fontWeight: 'var(--fw-medium)',
               }}
             >
-              Follow the championship battle live with up-to-date driver and
+              Follow the championship battle with current driver and
               constructor standings
             </p>
 

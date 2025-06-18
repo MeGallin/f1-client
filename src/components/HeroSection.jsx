@@ -8,7 +8,7 @@ import React from 'react';
 
 const HeroSection = ({
   title = 'F1 Dashboard',
-  subtitle = 'Real-time Formula 1 championship data, race results, and live standings',
+  subtitle = 'Formula 1 championship data, race results, and current standings',
 }) => {
   return (
     <section
@@ -76,25 +76,7 @@ const HeroSection = ({
         <div className="row align-items-center w-100">
           <div className="col-lg-8">
             {/* Main Title with Enhanced Typography */}
-            <div className="mb-4">
-              <div
-                className="badge mb-3"
-                style={{
-                  background: 'rgba(220, 38, 38, 0.2)',
-                  color: 'var(--f1-red-light)',
-                  fontFamily: 'var(--font-accent)',
-                  fontWeight: 'var(--fw-bold)',
-                  fontSize: '0.9rem',
-                  padding: '0.5rem 1rem',
-                  border: '1px solid rgba(220, 38, 38, 0.3)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '2px',
-                  animation: 'pulseGlow 2s ease-in-out infinite',
-                }}
-              >
-                🏁 Formula 1 Dashboard
-              </div>
-              <h1
+            <div className="mb-4">              <h1
                 className="display-3 fw-black mb-3"
                 style={{
                   fontFamily: 'var(--font-racing)',
@@ -159,7 +141,7 @@ const HeroSection = ({
                   }}
                 >
                   <i className="fas fa-tachometer-alt me-2"></i>
-                  Live Standings
+                  Current Standings
                 </button>
 
                 <button

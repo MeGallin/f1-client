@@ -115,7 +115,7 @@ const Navigation = memo(() => {
                 }}
               >
                 <i className="fas fa-home me-1"></i>
-                Live Dashboard
+                F1 Dashboard
               </Link>
             </li>
             <li className="nav-item">

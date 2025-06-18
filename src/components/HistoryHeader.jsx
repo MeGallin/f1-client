@@ -74,25 +74,7 @@ const HistoryHeader = ({ season, round }) => {
         <div className="row align-items-center w-100">
           <div className="col-lg-8">
             {/* Main Title with Enhanced Typography */}
-            <div className="mb-4">
-              <div
-                className="badge mb-3"
-                style={{
-                  background: 'rgba(220, 38, 38, 0.2)',
-                  color: 'var(--f1-red-light)',
-                  fontFamily: 'var(--font-accent)',
-                  fontWeight: 'var(--fw-bold)',
-                  fontSize: '0.9rem',
-                  padding: '0.5rem 1rem',
-                  border: '1px solid rgba(220, 38, 38, 0.3)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '2px',
-                  animation: 'pulseGlow 2s ease-in-out infinite',
-                }}
-              >
-                📚 Historical Data
-              </div>
-              <h1
+            <div className="mb-4">              <h1
                 className="display-3 fw-black mb-3"
                 style={{
                   fontFamily: 'var(--font-racing)',
