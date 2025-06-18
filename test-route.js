@@ -5,7 +5,9 @@ console.log('Testing motorsport-news route...');
 
 // Find the motorsport-news route
 const rootRoute = router.routes[0];
-const motorsportNewsRoute = rootRoute.children.find(child => child.path === 'motorsport-news');
+const motorsportNewsRoute = rootRoute.children.find(
+  (child) => child.path === 'motorsport-news',
+);
 
 if (motorsportNewsRoute) {
   console.log('✅ Motorsport News route found!');

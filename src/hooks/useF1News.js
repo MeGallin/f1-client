@@ -8,21 +8,26 @@ import { rssService } from '../services/rssService';
 export const useF1News = () => {
   const [newsItems, setNewsItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
 
   // Fetch news from RSS feed
   const fetchNews = useCallback(
-    async (force = false) => {
-      // Skip if already loading
-      if (isLoading && !force) return;
-
+    async (isManualRefresh = false) => {
       try {
-        setIsLoading(true);
+        // Only show loading for initial load or manual refresh
+        if (isInitialLoading) {
+          setIsLoading(true);
+        } else if (isManualRefresh) {
+          setIsRefreshing(true);
+        }
+
         setError(null);
 
-        // Clear cache if force refresh
-        if (force) {
+        // Clear cache if manual refresh
+        if (isManualRefresh) {
           rssService.clearCache();
         }
 
@@ -37,19 +42,20 @@ export const useF1News = () => {
         // Don't clear news items on error, keep previous data
       } finally {
         setIsLoading(false);
+        setIsInitialLoading(false);
+        setIsRefreshing(false);
       }
     },
-    [isLoading],
+    [isInitialLoading],
   );
-
   // Auto-refresh news every 30 minutes
   useEffect(() => {
     // Initial fetch
-    fetchNews();
+    fetchNews(false);
 
-    // Set up auto-refresh interval
+    // Set up auto-refresh interval (background updates)
     const interval = setInterval(() => {
-      fetchNews();
+      fetchNews(false); // Background refresh - no loading indicators
     }, 30 * 60 * 1000); // 30 minutes
 
     return () => clearInterval(interval);
@@ -57,12 +63,13 @@ export const useF1News = () => {
 
   // Manual refresh function
   const refreshNews = useCallback(() => {
-    fetchNews(true);
+    fetchNews(true); // Manual refresh - show loading indicators
   }, [fetchNews]);
 
   return {
     newsItems,
-    isLoading,
+    isLoading: isInitialLoading, // Only show loading for initial load
+    isRefreshing, // Separate state for manual refresh
     error,
     lastUpdated,
     refreshNews,

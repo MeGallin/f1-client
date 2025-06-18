@@ -20,6 +20,7 @@ const F1NewsTicker = memo(() => {
 
   // Render ticker content based on state
   const renderTickerContent = () => {
+    // Only show loading during initial load, not during background refreshes
     if (isLoading) {
       return (
         <div className="f1-ticker-item">
@@ -57,7 +58,8 @@ const F1NewsTicker = memo(() => {
         <span className="f1-ticker-source">- {item.source}</span>
       </div>
     ));
-  };  return (
+  };
+  return (
     <div className="f1-ticker-container">
       {/* Ticker Label - Now clickable */}
       <div className="f1-ticker-label" onClick={handleNewsLabelClick}>
