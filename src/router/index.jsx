@@ -11,6 +11,7 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorBoundary from '../components/ErrorBoundary';
 import Navigation from '../components/Navigation';
+import F1NewsTicker from '../components/F1NewsTicker';
 
 // Lazy load pages for code splitting and performance
 const HomePage = React.lazy(() => import('../pages/Home'));
@@ -31,6 +32,9 @@ const RootLayout = () => {
           </Suspense>
         </main>
       </ErrorBoundary>
+
+      {/* F1 News Ticker - Fixed at bottom */}
+      <F1NewsTicker />
     </div>
   );
 };

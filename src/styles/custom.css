@@ -1613,3 +1613,38 @@ body {
     transform: scale(1.05) translateY(-7px) !important;
   }
 }
+
+/* =============================================================================
+F1 NEWS TICKER LAYOUT ADJUSTMENTS
+============================================================================= */
+
+/* Add bottom padding to prevent content from being hidden behind fixed ticker */
+.App {
+  padding-bottom: 28px; /* Further reduced height of ticker on mobile */
+}
+
+/* Adjust footer margin to account for ticker */
+.App footer {
+  margin-bottom: 28px; /* Push footer up to accommodate ticker */
+}
+
+/* Responsive adjustments for ticker spacing */
+@media (min-width: 768px) {
+  .App {
+    padding-bottom: 32px; /* Further reduced ticker height on tablet */
+  }
+
+  .App footer {
+    margin-bottom: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .App {
+    padding-bottom: 36px; /* Further reduced ticker height on desktop */
+  }
+
+  .App footer {
+    margin-bottom: 36px;
+  }
+}
