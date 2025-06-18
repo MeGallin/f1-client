@@ -5,12 +5,14 @@
  * active route highlighting and responsive design.
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { APP_CONFIG } from '../config';
+import F1AgentChat from './F1AgentChat';
 
 const Navigation = memo(() => {
   const location = useLocation();
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const isActive = (path) => {
     if (path === '/') {
@@ -157,6 +159,7 @@ const Navigation = memo(() => {
               </Link>
             </li>
             <li className="nav-item">
+<<<<<<< HEAD
               <Link
                 className="nav-link"
                 to="/motorsport-news"
@@ -168,11 +171,21 @@ const Navigation = memo(() => {
                   fontWeight: isActive('/motorsport-news')
                     ? 'var(--fw-semibold)'
                     : 'var(--fw-normal)',
+=======
+              <button
+                className="nav-link btn btn-link"
+                onClick={() => setIsChatOpen(true)}
+                style={{
+                  color: 'var(--f1-grey-300)',
+                  fontFamily: 'var(--font-primary)',
+                  fontWeight: 'var(--fw-normal)',
+>>>>>>> cbf3e4a (added agent mode)
                   fontSize: 'var(--text-base)',
                   padding: '0.75rem 1rem',
                   borderRadius: 'var(--border-radius)',
                   transition: 'var(--transition-normal)',
                   textDecoration: 'none',
+<<<<<<< HEAD
                   background: isActive('/motorsport-news')
                     ? 'var(--f1-red-muted)'
                     : 'transparent',
@@ -193,6 +206,23 @@ const Navigation = memo(() => {
                 <i className="fas fa-newspaper me-1"></i>
                 Motorsport News
               </Link>
+=======
+                  background: 'transparent',
+                  border: 'none',
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.color = 'var(--f1-white)';
+                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.color = 'var(--f1-grey-300)';
+                  e.target.style.background = 'transparent';
+                }}
+              >
+                <i className="fas fa-robot me-1"></i>
+                AI Assistant
+              </button>
+>>>>>>> cbf3e4a (added agent mode)
             </li>
           </ul>
 
@@ -303,6 +333,12 @@ const Navigation = memo(() => {
           </ul>
         </div>
       </div>
+
+      {/* F1 Agent Chat Modal */}
+      <F1AgentChat 
+        isOpen={isChatOpen} 
+        onClose={() => setIsChatOpen(false)} 
+      />
     </nav>
   );
 });
