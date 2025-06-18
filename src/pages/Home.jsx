@@ -82,7 +82,18 @@ const HomePage = () => {
           style={{ animation: 'heroTextSlide 1s ease-out 0.8s both' }}
         >
           {/* Section Header */}
-          <div className="text-center mb-4">
+          <div
+            className="text-center mb-4"
+            style={{
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'saturate(180%)',
+              borderRadius: 'var(--border-radius-lg)',
+              padding: '2rem',
+              marginBottom: '2rem',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+            }}
+          >
             <h2
               className="display-5 fw-bold mb-4"
               style={{
@@ -122,8 +133,8 @@ const HomePage = () => {
                 fontWeight: 'var(--fw-medium)',
               }}
             >
-              Follow the championship battle with current driver and
-              constructor standings
+              Follow the championship battle with current driver and constructor
+              standings
             </p>
 
             {/* Enhanced horizontal divider */}
@@ -140,7 +151,16 @@ const HomePage = () => {
           </div>
 
           {/* Championship Tables with Enhanced Cards */}
-          <div className="f1-card-enhanced">
+          <div
+            className="f1-card-enhanced"
+            style={{
+              background: 'rgba(255, 255, 255, 0.9)',
+              borderRadius: 'var(--border-radius-lg)',
+              padding: '1.5rem',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+            }}
+          >
             <ChampionshipTables
               topDrivers={topDrivers}
               topConstructors={topConstructors}
@@ -151,7 +171,15 @@ const HomePage = () => {
         {/* Enhanced Quick Actions Section */}
         <div
           className="mb-5"
-          style={{ animation: 'heroTextSlide 1s ease-out 1.1s both' }}
+          style={{
+            animation: 'heroTextSlide 1s ease-out 1.1s both',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'saturate(180%)',
+            borderRadius: 'var(--border-radius-lg)',
+            padding: '1.5rem',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+          }}
         >
           {/* Enhanced Quick Actions */}
           <QuickActions />

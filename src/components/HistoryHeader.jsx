@@ -44,37 +44,13 @@ const HistoryHeader = ({ season, round }) => {
         }}
       ></div>
 
-      {/* Floating Speed Lines */}
-      <div
-        className="position-absolute"
-        style={{
-          top: '20%',
-          left: '-10%',
-          width: '120%',
-          height: '2px',
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(220, 38, 38, 0.3) 50%, transparent 100%)',
-          animation: 'speedLine1 4s ease-in-out infinite',
-        }}
-      ></div>
-      <div
-        className="position-absolute"
-        style={{
-          top: '60%',
-          left: '-10%',
-          width: '120%',
-          height: '1px',
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(245, 158, 11, 0.4) 50%, transparent 100%)',
-          animation: 'speedLine2 6s ease-in-out infinite reverse',
-        }}
-      ></div>
-
       <div className="container position-relative h-100 d-flex align-items-center">
         <div className="row align-items-center w-100">
           <div className="col-lg-8">
             {/* Main Title with Enhanced Typography */}
-            <div className="mb-4">              <h1
+            <div className="mb-4">
+              {' '}
+              <h1
                 className="display-3 fw-black mb-3"
                 style={{
                   fontFamily: 'var(--font-racing)',
@@ -108,64 +84,6 @@ const HistoryHeader = ({ season, round }) => {
               >
                 Explore past seasons, race results, and championship data
               </p>
-              {/* Call to Action Buttons */}
-              <div
-                className="d-flex flex-wrap gap-3"
-                style={{ animation: 'heroTextSlide 1s ease-out 0.6s both' }}
-              >
-                <button
-                  className="btn btn-lg px-4 py-3"
-                  style={{
-                    background: 'var(--f1-gradient-red)',
-                    color: 'var(--f1-white)',
-                    border: 'none',
-                    fontFamily: 'var(--font-accent)',
-                    fontWeight: 'var(--fw-bold)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    borderRadius: '8px',
-                    boxShadow: '0 8px 25px rgba(220, 38, 38, 0.3)',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow =
-                      '0 12px 35px rgba(220, 38, 38, 0.4)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow =
-                      '0 8px 25px rgba(220, 38, 38, 0.3)';
-                  }}
-                >
-                  <i className="fas fa-chart-line me-2"></i>
-                  Season Stats
-                </button>
-
-                <button
-                  className="btn btn-outline-light btn-lg px-4 py-3"
-                  style={{
-                    fontFamily: 'var(--font-accent)',
-                    fontWeight: 'var(--fw-semibold)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    borderRadius: '8px',
-                    borderWidth: '2px',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-                    e.target.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.background = 'transparent';
-                    e.target.style.transform = 'translateY(0)';
-                  }}
-                >
-                  <i className="fas fa-trophy me-2"></i>
-                  Championships
-                </button>
-              </div>
             </div>
           </div>
         </div>

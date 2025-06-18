@@ -70,10 +70,10 @@ const StatsCards = ({
               '--accent-color': stat.color,
               background:
                 index === 0
-                  ? 'linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%)'
+                  ? 'rgba(255, 255, 255, 0.85)'
                   : index === 1
-                  ? 'linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%)'
-                  : 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%)',
+                  ? 'rgba(255, 255, 255, 0.85)'
+                  : 'rgba(255, 255, 255, 0.85)',
               border: `1px solid ${stat.color}20`,
               borderRadius: '16px',
               padding: '0',
@@ -107,19 +107,7 @@ const StatsCards = ({
                 position: 'relative',
               }}
             >
-              {/* Semi-transparent overlay for better text contrast */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  backdropFilter: 'blur(10px)',
-                }}
-              ></div>
-
+              {' '}
               <div
                 style={{
                   display: 'flex',
@@ -982,7 +970,6 @@ const StatsCards = ({
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     background: 'rgba(255, 255, 255, 0.02)',
-                    backdropFilter: 'blur(8px)',
                     borderRadius: '12px',
                     padding: '1.5rem',
                     display: 'flex',
