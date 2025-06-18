@@ -5,12 +5,18 @@
  */
 
 import React, { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Marquee from 'react-fast-marquee';
 import { useF1News } from '../hooks/useF1News';
 import './F1NewsTicker.css';
 
 const F1NewsTicker = memo(() => {
   const { newsItems, isLoading, error, hasNews } = useF1News();
+  const navigate = useNavigate();
+
+  const handleNewsLabelClick = () => {
+    navigate('/motorsport-news');
+  };
 
   // Render ticker content based on state
   const renderTickerContent = () => {
@@ -51,11 +57,10 @@ const F1NewsTicker = memo(() => {
         <span className="f1-ticker-source">- {item.source}</span>
       </div>
     ));
-  };
-  return (
+  };  return (
     <div className="f1-ticker-container">
-      {/* Ticker Label */}
-      <div className="f1-ticker-label">
+      {/* Ticker Label - Now clickable */}
+      <div className="f1-ticker-label" onClick={handleNewsLabelClick}>
         <span className="f1-ticker-brand">F1 NEWS</span>
         {hasNews && (
           <span className="f1-ticker-count">({newsItems.length})</span>

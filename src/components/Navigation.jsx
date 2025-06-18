@@ -156,6 +156,44 @@ const Navigation = memo(() => {
                 Historical Data
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/motorsport-news"
+                style={{
+                  color: isActive('/motorsport-news')
+                    ? 'var(--f1-red-light)'
+                    : 'var(--f1-grey-300)',
+                  fontFamily: 'var(--font-primary)',
+                  fontWeight: isActive('/motorsport-news')
+                    ? 'var(--fw-semibold)'
+                    : 'var(--fw-normal)',
+                  fontSize: 'var(--text-base)',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--border-radius)',
+                  transition: 'var(--transition-normal)',
+                  textDecoration: 'none',
+                  background: isActive('/motorsport-news')
+                    ? 'var(--f1-red-muted)'
+                    : 'transparent',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive('/motorsport-news')) {
+                    e.target.style.color = 'var(--f1-white)';
+                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive('/motorsport-news')) {
+                    e.target.style.color = 'var(--f1-grey-300)';
+                    e.target.style.background = 'transparent';
+                  }
+                }}
+              >
+                <i className="fas fa-newspaper me-1"></i>
+                Motorsport News
+              </Link>
+            </li>
           </ul>
 
           <ul className="navbar-nav">

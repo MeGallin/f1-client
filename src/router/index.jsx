@@ -16,6 +16,7 @@ import F1NewsTicker from '../components/F1NewsTicker';
 // Lazy load pages for code splitting and performance
 const HomePage = React.lazy(() => import('../pages/Home'));
 const HistoryPage = React.lazy(() => import('../pages/History'));
+const MotorsportNewsPage = React.lazy(() => import('../pages/MotorsportNews'));
 
 /**
  * Root Layout Component
@@ -73,6 +74,10 @@ export const router = createBrowserRouter([
       {
         path: 'history/:season/:round',
         element: <HistoryPage />,
+      },
+      {
+        path: 'motorsport-news',
+        element: <MotorsportNewsPage />,
       },
     ],
   },
