@@ -13,7 +13,7 @@ const F1AgentChat = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedAgent, setSelectedAgent] = useState('multi-agent');
+  const [selectedAgent, setSelectedAgent] = useState('multiAgent');
   const [availableAgents, setAvailableAgents] = useState([]);
   const [agentStatus, setAgentStatus] = useState(null);
   const messagesEndRef = useRef(null);
@@ -31,7 +31,11 @@ const F1AgentChat = ({ isOpen, onClose }) => {
   // Focus input when modal opens
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      setTimeout(() => inputRef.current.focus(), 100);
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 100);
     }
   }, [isOpen]);
 
@@ -44,9 +48,13 @@ const F1AgentChat = ({ isOpen, onClose }) => {
       ]);
 
       if (agentsResult.success) {
-        setAvailableAgents(agentsResult.data);
+        setAvailableAgents(
+          Array.isArray(agentsResult.data) ? agentsResult.data : [],
+        );
       } else {
-        setAvailableAgents(agentsResult.data); // Fallback data
+        setAvailableAgents(
+          Array.isArray(agentsResult.data) ? agentsResult.data : [],
+        );
       }
 
       setAgentStatus(
@@ -68,8 +76,9 @@ const F1AgentChat = ({ isOpen, onClose }) => {
           type: 'agent',
           content: `🏎️ **Welcome to F1 AI Analysis!**
 
-I'm your F1 expert powered by advanced AI agents. I can help you with:
+I'm your intelligent F1 expert with **automatic agent routing**. I analyze your question and automatically select the best specialist agent(s):
 
+🎯 **AI Orchestrator** - Intelligently routes your query to:
 • **Season Analysis** - Multi-season trends and insights
 • **Driver Performance** - Career analysis and comparisons  
 • **Race Strategy** - Circuit analysis and tactical insights
@@ -116,6 +125,9 @@ What would you like to know about Formula 1?`,
           timestamp: new Date(),
           agentId: result.data.agentUsed || selectedAgent,
           processingTime: result.data.processingTime,
+          confidence: result.data.confidence,
+          queryType: result.data.queryType,
+          agentsUsed: result.data.agentsUsed,
         };
         setMessages((prev) => [...prev, agentMessage]);
       } else {
