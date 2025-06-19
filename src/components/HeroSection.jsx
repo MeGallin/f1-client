@@ -5,65 +5,22 @@
  */
 
 import React from 'react';
+import './HeroSection.css'; // Import the new styles
 
 const HeroSection = ({
   title = 'F1 Dashboard',
   subtitle = 'Formula 1 championship data, race results, and current standings',
 }) => {
   return (
-    <section
-      className="text-white py-3 mb-3 position-relative"
-      style={{
-        background: 'var(--f1-gradient-dark)',
-        minHeight: '15vh',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Animated Background Elements */}
-      <div
-        className="position-absolute w-100 h-100"
-        style={{
-          background: `
-            radial-gradient(circle at 20% 50%, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 40% 90%, rgba(59, 130, 246, 0.05) 0%, transparent 50%)
-          `,
-          animation: 'raceTrackGlow 8s ease-in-out infinite alternate',
-        }}
-      ></div>
-
-      {/* Racing Stripes Pattern */}
-      <div
-        className="f1-stripes-pattern"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          opacity: 0.15,
-          animation: 'raceStripes 20s linear infinite',
-        }}
-      ></div>
+    <section className="hero-section text-white py-3 mb-3">
+      <div className="hero-background-elements"></div>
+      <div className="hero-stripes"></div>
 
       <div className="container position-relative h-100 d-flex align-items-center">
         <div className="row align-items-center w-100">
           <div className="col-lg-8">
-            {/* Main Title with Enhanced Typography */}
             <div className="mb-2">
-              {' '}
-              <h1
-                className="display-4 fw-black mb-2"
-                style={{
-                  fontFamily: 'var(--font-racing)',
-                  fontWeight: 'var(--fw-black)',
-                  letterSpacing: '-2px',
-                  color: 'var(--f1-white)',
-                  textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
-                  lineHeight: '1.1',
-                  animation: 'heroTextSlide 1s ease-out',
-                }}
-              >
+              <h1 className="display-4 hero-title">
                 <i
                   className="fas fa-flag-checkered me-3"
                   style={{
@@ -73,19 +30,7 @@ const HeroSection = ({
                 ></i>
                 {title}
               </h1>
-              <p
-                className="lead mb-2"
-                style={{
-                  fontSize: 'var(--text-lg)',
-                  fontFamily: 'var(--font-primary)',
-                  opacity: 0.9,
-                  fontWeight: '300',
-                  lineHeight: '1.4',
-                  animation: 'heroTextSlide 1s ease-out 0.3s both',
-                }}
-              >
-                {subtitle}
-              </p>
+              <p className="lead mb-2 hero-subtitle">{subtitle}</p>
             </div>
           </div>
         </div>

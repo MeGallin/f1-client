@@ -1,0 +1,86 @@
+/* F1AgentChat.css */
+
+.f1-agent-chat-modal {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+.f1-agent-chat-modal .modal-content {
+  height: 90vh;
+  background-color: var(--f1-grey-800);
+  border: 2px solid var(--f1-red-primary);
+  color: var(--f1-light);
+  border-radius: var(--border-radius-xl);
+}
+
+.f1-agent-chat-modal .modal-header {
+  background: var(--f1-gradient-dark);
+  color: var(--f1-white);
+  border-bottom: 2px solid var(--f1-red-primary);
+  font-family: var(--font-racing);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.f1-agent-chat-modal .modal-title .fas {
+  color: var(--f1-red-primary);
+}
+
+.f1-agent-chat-modal .agent-selector {
+  width: 200px;
+  background: var(--f1-grey-700);
+  border: 1px solid var(--f1-grey-600);
+  color: var(--f1-light);
+}
+
+.f1-agent-chat-modal .chat-messages {
+  overflow-y: auto;
+  background-color: var(--f1-grey-900);
+}
+
+.f1-agent-chat-modal .message-card {
+  max-width: 75%;
+  border: none;
+  box-shadow: var(--shadow-dark);
+}
+
+.f1-agent-chat-modal .message-card.user {
+  background-color: var(--f1-red-primary);
+  color: var(--f1-white);
+}
+
+.f1-agent-chat-modal .message-card.agent {
+  background-color: var(--f1-grey-700);
+}
+
+.f1-agent-chat-modal .message-card.error {
+  background-color: var(--f1-red-dark);
+  color: var(--f1-white);
+}
+
+.f1-agent-chat-modal .example-queries {
+  background: var(--f1-grey-800);
+  border-top: 1px solid var(--f1-grey-700);
+}
+
+.f1-agent-chat-modal .chat-input-area {
+  background: var(--f1-grey-800);
+  border-top: 2px solid var(--f1-grey-700);
+}
+
+.f1-agent-chat-modal .chat-input {
+  resize: none;
+  font-family: var(--font-primary);
+  background-color: var(--f1-grey-700);
+  color: var(--f1-light);
+  border: 1px solid var(--f1-grey-600);
+  border-radius: var(--border-radius);
+}
+
+.f1-agent-chat-modal .send-button {
+  background: var(--f1-red-primary);
+  border-color: var(--f1-red-primary);
+  font-family: var(--font-primary);
+  font-weight: var(--fw-semibold);
+}

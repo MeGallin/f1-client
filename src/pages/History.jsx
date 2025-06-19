@@ -4,7 +4,7 @@
  * Comprehensive history browser with:
  * - Season selector and browser
  * - Past race results and detailed views
-   }; championship data
+ * - Championship data
  * - Advanced filtering and statistics
  * - Sub-routes for specific seasons/rounds
  */
@@ -25,7 +25,7 @@ import {
 } from '../state';
 
 // Import all the components we created
-import HistoryHeader from '../components/HistoryHeader';
+import HeroSection from '../components/HeroSection';
 import SeasonControls from '../components/SeasonControls';
 import TopDriversCard from '../components/TopDriversCard';
 import TopConstructorsCard from '../components/TopConstructorsCard';
@@ -34,12 +34,13 @@ import ConstructorsTable from '../components/ConstructorsTable';
 import RacesView from '../components/RacesView';
 import LoadingState from '../components/LoadingState';
 import QuickNavigation from '../components/QuickNavigation';
+import './History.css'; // Import the new styles
 
 const HistoryPage = () => {
   const { season, round } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { selectedYear, setSelectedYear, currentRace } = useF1AppState();
+  const { setSelectedYear } = useF1AppState();
   const {
     topDrivers,
     topConstructors,
@@ -67,7 +68,7 @@ const HistoryPage = () => {
     if (season && season !== selectedSeason) {
       setSelectedSeason(season);
     }
-  }, [season]); // Removed selectedSeason to prevent infinite loop
+  }, [season]);
 
   // Sorting function for drivers
   const sortDrivers = (drivers, sortBy, sortOrder) => {
@@ -171,25 +172,20 @@ const HistoryPage = () => {
   const availableSeasons = Array.from(
     { length: 25 },
     (_, i) => currentYear - i,
-  ); // Handle season change
+  );
+
   const handleSeasonChange = (newSeason) => {
-    // If it's the same season, still force a refresh of the data
-    // This helps when the "Current Season" button is clicked
     if (newSeason === selectedSeason) {
-      // Set loading states to show refresh is happening
       setLoadingDrivers(true);
       setLoadingConstructors(true);
       setLoadingOverview(true);
 
-      // Force a refresh by re-fetching the data
       const year = parseInt(newSeason);
-
-      // Set a timeout to prevent infinite loading
       const timeoutId = setTimeout(() => {
         setLoadingDrivers(false);
         setLoadingConstructors(false);
         setLoadingOverview(false);
-      }, 30000); // 30 second timeout
+      }, 30000);
 
       const fetchData = async () => {
         try {
@@ -197,7 +193,6 @@ const HistoryPage = () => {
             fetchDriverStandings(year),
             fetchConstructorStandings(year),
           ]);
-
           clearTimeout(timeoutId);
           setLoadingDrivers(false);
           setLoadingConstructors(false);
@@ -210,78 +205,55 @@ const HistoryPage = () => {
           setLoadingOverview(false);
         }
       };
-
       fetchData();
-      return; // Don't change the season or navigate if it's the same
+      return;
     }
 
-    // Immediately show loading states for better UX
     setLoadingDrivers(true);
     setLoadingConstructors(true);
     setLoadingOverview(true);
-
     setSelectedSeason(newSeason);
     setSelectedYear(parseInt(newSeason));
     navigate(`/history/${newSeason}`);
-  }; // Handle view mode change
+  };
+
   const handleViewModeChange = (mode) => {
     setViewMode(mode);
+    navigate(`/history/${selectedSeason}/${mode}`);
+  };
 
-    // Navigate to the correct URL based on mode
-    if (mode === 'overview') {
-      navigate(`/history/${selectedSeason}`);
-    } else if (mode === 'drivers') {
-      navigate(`/history/${selectedSeason}/drivers`);
-    } else if (mode === 'constructors') {
-      navigate(`/history/${selectedSeason}/constructors`);
-    } else if (mode === 'races') {
-      navigate(`/history/${selectedSeason}/races`);
-    }
-  }; // Initialize with URL params or current season
   useEffect(() => {
     if (season && season !== selectedSeason) {
       setSelectedSeason(season);
       setSelectedYear(parseInt(season));
     }
-  }, [season]); // Only depend on season, not selectedSeason to avoid loops
-  // Fetch historical data when selectedSeason changes
+  }, [season, selectedSeason, setSelectedYear]);
+
   useEffect(() => {
     if (selectedSeason) {
       const year = parseInt(selectedSeason);
-      let isCancelled = false; // To handle component unmount or race conditions
+      let isCancelled = false;
 
-      // Set loading states
       setLoadingDrivers(true);
       setLoadingConstructors(true);
       setLoadingOverview(true);
 
-      // Clear any previous data to show loading immediately
-      // This ensures the UI reflects the loading state properly
-
-      // Set a timeout to prevent infinite loading (30 seconds)
       const timeoutId = setTimeout(() => {
         if (!isCancelled) {
           setLoadingDrivers(false);
           setLoadingConstructors(false);
           setLoadingOverview(false);
         }
-      }, 30000); // 30 second timeout
+      }, 30000);
 
-      // Fetch driver and constructor standings for the selected year
       const fetchData = async () => {
         try {
-          // Fetch both in parallel
-          const [driverResults, constructorResults] = await Promise.all([
+          await Promise.all([
             fetchDriverStandings(year),
             fetchConstructorStandings(year),
           ]);
-
-          // Clear the timeout since we completed successfully
           clearTimeout(timeoutId);
-
-          // Only update state if the effect hasn't been cancelled
           if (!isCancelled) {
-            // Add a small delay to ensure data has propagated
             setTimeout(() => {
               if (!isCancelled) {
                 setLoadingDrivers(false);
@@ -292,11 +264,7 @@ const HistoryPage = () => {
           }
         } catch (error) {
           console.error('Error fetching historical data:', error);
-
-          // Clear the timeout since we completed (with error)
           clearTimeout(timeoutId);
-
-          // Only update state if the effect hasn't been cancelled
           if (!isCancelled) {
             setLoadingDrivers(false);
             setLoadingConstructors(false);
@@ -304,41 +272,25 @@ const HistoryPage = () => {
           }
         }
       };
-
       fetchData();
 
-      // Cleanup function to prevent state updates if component unmounts
-      // or if a new effect is triggered
       return () => {
         isCancelled = true;
         clearTimeout(timeoutId);
       };
     }
-  }, [selectedSeason, fetchDriverStandings, fetchConstructorStandings]); // Determine current view from URL
+  }, [selectedSeason, fetchDriverStandings, fetchConstructorStandings]);
+
   useEffect(() => {
     const pathSegments = location.pathname.split('/');
-    // pathSegments = ['', 'history', 'season', 'mode/round']
-
     if (pathSegments.length >= 4) {
       const lastSegment = pathSegments[3];
-
-      // Check if the last segment is a specific mode
-      if (lastSegment === 'drivers') {
-        setViewMode('drivers');
-      } else if (lastSegment === 'constructors') {
-        setViewMode('constructors');
-      } else if (lastSegment === 'races') {
-        setViewMode('races');
+      if (['drivers', 'constructors', 'races'].includes(lastSegment)) {
+        setViewMode(lastSegment);
       } else {
-        // If it's a number (round), show races view
-        if (/^\d+$/.test(lastSegment)) {
-          setViewMode('races');
-        } else {
-          setViewMode('overview');
-        }
+        setViewMode('overview');
       }
     } else {
-      // Default to overview for /history or /history/:season
       setViewMode('overview');
     }
   }, [location.pathname]);
@@ -363,95 +315,94 @@ const HistoryPage = () => {
 
   return (
     <div className="history-page">
-      <HistoryHeader season={season} round={round} />
+      <HeroSection
+        title="F1 Historical Data"
+        subtitle="Explore past seasons, race results, and championship data"
+      />
 
       <div className="container py-4">
-        <SeasonControls
-          selectedSeason={selectedSeason}
-          availableSeasons={availableSeasons}
-          currentYear={currentYear}
-          viewMode={viewMode}
-          loadingDrivers={loadingDrivers}
-          loadingConstructors={loadingConstructors}
-          loadingOverview={loadingOverview}
-          onSeasonChange={handleSeasonChange}
-          onViewModeChange={handleViewModeChange}
-        />
+        <div className="season-controls">
+          <SeasonControls
+            selectedSeason={selectedSeason}
+            availableSeasons={availableSeasons}
+            currentYear={currentYear}
+            viewMode={viewMode}
+            loadingDrivers={loadingDrivers}
+            loadingConstructors={loadingConstructors}
+            loadingOverview={loadingOverview}
+            onSeasonChange={handleSeasonChange}
+            onViewModeChange={handleViewModeChange}
+          />
+        </div>
 
-        {/* Overview Mode */}
         {viewMode === 'overview' && (
-          <div className="row">
-            <div className="col-12 mb-4">
-              <div className="row">
-                <div className="col-lg-6 mb-4">
-                  <TopDriversCard
-                    selectedSeason={selectedSeason}
-                    loadingDrivers={loadingDrivers}
-                    topDrivers={topDrivers}
-                    onViewModeChange={handleViewModeChange}
-                  />
-                </div>
-
-                <div className="col-lg-6 mb-4">
-                  <TopConstructorsCard
-                    selectedSeason={selectedSeason}
-                    loadingConstructors={loadingConstructors}
-                    topConstructors={topConstructors}
-                    onViewModeChange={handleViewModeChange}
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="view-mode-cards">
+            <TopDriversCard
+              selectedSeason={selectedSeason}
+              loadingDrivers={loadingDrivers}
+              topDrivers={topDrivers}
+              onViewModeChange={handleViewModeChange}
+            />
+            <TopConstructorsCard
+              selectedSeason={selectedSeason}
+              loadingConstructors={loadingConstructors}
+              topConstructors={topConstructors}
+              onViewModeChange={handleViewModeChange}
+            />
           </div>
         )}
 
-        {/* Drivers Mode */}
         {viewMode === 'drivers' && (
-          <DriversTable
-            selectedSeason={selectedSeason}
-            loadingDrivers={loadingDrivers}
-            topDrivers={topDrivers}
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-            sortedDrivers={sortedDrivers}
-            onSortChange={handleSortChange}
-            onSortOrderChange={() =>
-              setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-            }
-          />
+          <div className="table-container">
+            <DriversTable
+              selectedSeason={selectedSeason}
+              loadingDrivers={loadingDrivers}
+              topDrivers={topDrivers}
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              sortedDrivers={sortedDrivers}
+              onSortChange={handleSortChange}
+              onSortOrderChange={() =>
+                setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+              }
+            />
+          </div>
         )}
 
-        {/* Constructors Mode */}
         {viewMode === 'constructors' && (
-          <ConstructorsTable
-            selectedSeason={selectedSeason}
-            loadingConstructors={loadingConstructors}
-            topConstructors={topConstructors}
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-            sortedConstructors={sortedConstructors}
-            onSortChange={handleSortChange}
-            onSortOrderChange={() =>
-              setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-            }
-          />
+          <div className="table-container">
+            <ConstructorsTable
+              selectedSeason={selectedSeason}
+              loadingConstructors={loadingConstructors}
+              topConstructors={topConstructors}
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              sortedConstructors={sortedConstructors}
+              onSortChange={handleSortChange}
+              onSortOrderChange={() =>
+                setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+              }
+            />
+          </div>
         )}
 
-        {/* Races Mode */}
-        {viewMode === 'races' && <RacesView selectedSeason={selectedSeason} />}
+        {viewMode === 'races' && (
+          <div className="table-container">
+            <RacesView selectedSeason={selectedSeason} />
+          </div>
+        )}
 
-        {/* Loading State */}
         {isLoading && <LoadingState selectedSeason={selectedSeason} />}
 
-        {/* Quick Navigation */}
-        <QuickNavigation
-          selectedSeason={selectedSeason}
-          currentYear={currentYear}
-          onSeasonChange={handleSeasonChange}
-        />
+        <div className="quick-nav-container">
+          <QuickNavigation
+            selectedSeason={selectedSeason}
+            currentYear={currentYear}
+            onSeasonChange={handleSeasonChange}
+          />
+        </div>
       </div>
 
-      {/* Outlet for nested routes */}
       <Outlet />
     </div>
   );

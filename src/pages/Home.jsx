@@ -5,21 +5,12 @@
  */
 
 import React, { useEffect } from 'react';
-import {
-  useF1AppState,
-  useCurrentAndNextRace,
-  useIsLoading,
-  useHasError,
-} from '../state';
-import { FeatureFlag, useFeatureFlag } from '../components/FeatureFlag';
-import { APP_CONFIG, UI_CONFIG } from '../config';
-
-// Import new reusable components
+import { useF1AppState, useIsLoading, useHasError } from '../state';
 import HeroSection from '../components/HeroSection';
 import StatsCards from '../components/StatsCards';
 import ChampionshipTables from '../components/ChampionshipTables';
-import LatestRaceInfo from '../components/LatestRaceInfo';
 import QuickActions from '../components/QuickActions';
+import './Home.css'; // Import the new styles
 
 const HomePage = () => {
   const {
@@ -32,10 +23,6 @@ const HomePage = () => {
 
   const isLoading = useIsLoading();
   const hasError = useHasError();
-
-  // Feature flags
-  const showRaceResults = useFeatureFlag('enableRaceResults');
-  const showHistoricalData = useFeatureFlag('enableHistoricalData');
 
   // Initialize with current year data
   useEffect(() => {
@@ -57,16 +44,10 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      {/* Enhanced F1 Racing Hero Section */}
       <HeroSection />
 
-      {/* Main Content with Enhanced Spacing */}
       <div className="container py-5">
-        {/* F1 Racing Quick Stats Cards with Animation */}
-        <div
-          className="mb-5"
-          style={{ animation: 'heroTextSlide 1s ease-out 0.5s both' }}
-        >
+        <div className="home-section">
           <StatsCards
             topDrivers={topDrivers}
             topConstructors={topConstructors}
@@ -76,91 +57,15 @@ const HomePage = () => {
           />
         </div>
 
-        {/* Enhanced Championship Section */}
-        <div
-          className="mb-5"
-          style={{ animation: 'heroTextSlide 1s ease-out 0.8s both' }}
-        >
-          {/* Section Header */}
-          <div
-            className="text-center mb-4"
-            style={{
-              background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'saturate(180%)',
-              borderRadius: 'var(--border-radius-lg)',
-              padding: '2rem',
-              marginBottom: '2rem',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-            }}
-          >
-            <h2
-              className="display-5 fw-bold mb-4"
-              style={{
-                fontFamily: 'var(--font-racing)',
-                color: 'var(--f1-grey-900)',
-                letterSpacing: '-1px',
-                fontSize: '2.5rem',
-                fontWeight: 'var(--fw-black)',
-                position: 'relative',
-              }}
-            >
-              Current Season Leaders
-              {/* Decorative accent line */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-8px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '80px',
-                  height: '3px',
-                  background:
-                    'linear-gradient(90deg, var(--f1-red), var(--f1-gold))',
-                  borderRadius: '2px',
-                }}
-              ></div>
-            </h2>
-            <p
-              className="lead mb-5"
-              style={{
-                fontFamily: 'var(--font-primary)',
-                maxWidth: '650px',
-                margin: '0 auto 3rem auto',
-                color: 'var(--f1-grey-700)',
-                fontSize: '1.15rem',
-                lineHeight: '1.6',
-                fontWeight: 'var(--fw-medium)',
-              }}
-            >
+        <div className="home-section">
+          <div className="section-header">
+            <h2 className="section-title">Current Season Leaders</h2>
+            <p className="section-subtitle">
               Follow the championship battle with current driver and constructor
-              standings
+              standings.
             </p>
-
-            {/* Enhanced horizontal divider */}
-            <div
-              style={{
-                width: '100%',
-                height: '1px',
-                background:
-                  'linear-gradient(90deg, transparent 0%, var(--f1-red-primary) 30%, var(--f1-gold) 50%, var(--f1-red-primary) 70%, transparent 100%)',
-                marginBottom: '2.5rem',
-                opacity: 0.6,
-              }}
-            ></div>
           </div>
-
-          {/* Championship Tables with Enhanced Cards */}
-          <div
-            className="f1-card-enhanced"
-            style={{
-              background: 'rgba(255, 255, 255, 0.9)',
-              borderRadius: 'var(--border-radius-lg)',
-              padding: '1.5rem',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-            }}
-          >
+          <div className="championship-tables-container">
             <ChampionshipTables
               topDrivers={topDrivers}
               topConstructors={topConstructors}
@@ -168,21 +73,10 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Enhanced Quick Actions Section */}
-        <div
-          className="mb-5"
-          style={{
-            animation: 'heroTextSlide 1s ease-out 1.1s both',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'saturate(180%)',
-            borderRadius: 'var(--border-radius-lg)',
-            padding: '1.5rem',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-          }}
-        >
-          {/* Enhanced Quick Actions */}
-          <QuickActions />
+        <div className="home-section">
+          <div className="quick-actions-container">
+            <QuickActions />
+          </div>
         </div>
       </div>
     </div>

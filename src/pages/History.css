@@ -1,0 +1,37 @@
+/* History.css */
+
+.history-page {
+  padding-bottom: 3rem;
+}
+
+.history-header {
+  background-color: var(--f1-grey-800);
+  padding: 2rem;
+  border-bottom: 1px solid var(--f1-grey-700);
+  margin-bottom: 2rem;
+}
+
+.season-controls {
+  margin-bottom: 2rem;
+}
+
+.view-mode-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.table-container {
+  background-color: var(--f1-grey-800);
+  border-radius: var(--border-radius-xl);
+  padding: 1.5rem;
+  border: 1px solid var(--f1-grey-700);
+}
+
+.quick-nav-container {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background-color: var(--f1-grey-800);
+  border-radius: var(--border-radius-xl);
+  border: 1px solid var(--f1-grey-700);
+}

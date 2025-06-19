@@ -50,31 +50,31 @@
   --navbar-height: 56px; /* Default Bootstrap navbar height */
 
   /* 🔴 PRIMARY RACING REDS - The Star Colors! */
-  --f1-red-primary: #dc2626; /* Your beloved F1 red - slightly refined */
-  --f1-red-dark: #b91c1c; /* Deep racing red for hover states */
-  --f1-red-darker: #991b1b; /* Darkest red for deep shadows */
-  --f1-red-light: #ef4444; /* Lighter red for highlights */
-  --f1-red-lighter: #f87171; /* Subtle red for backgrounds */
-  --f1-red-muted: #dc262680; /* Semi-transparent red */
-  --f1-red-pale: #fef2f2; /* Very light red background */
+  --f1-red-primary: #e00600;
+  --f1-red-dark: #b91c1c;
+  --f1-red-darker: #991b1b;
+  --f1-red-light: #ef4444;
+  --f1-red-lighter: #f87171;
+  --f1-red-muted: #e0060080;
+  --f1-red-pale: #2c1515;
 
-  /* ⚫ SOPHISTICATED GREYS - The Perfect Complement */
-  --f1-grey-900: #111827; /* Almost black - carbon fiber */
-  --f1-grey-800: #1f2937; /* Very dark grey - asphalt */
-  --f1-grey-700: #374151; /* Dark grey - racing suits */
-  --f1-grey-600: #4b5563; /* Medium-dark grey */
-  --f1-grey-500: #6b7280; /* Perfect middle grey */
-  --f1-grey-400: #9ca3af; /* Light-medium grey */
-  --f1-grey-300: #d1d5db; /* Light grey - track barriers */
-  --f1-grey-200: #e5e7eb; /* Very light grey */
-  --f1-grey-100: #f3f4f6; /* Ultra light grey */
-  --f1-grey-50: #f9fafb; /* Background grey */
+  /* ⚫ DARK THEME GREYS */
+  --f1-grey-900: #121212; /* Main background */
+  --f1-grey-800: #1c1c1e; /* Card background */
+  --f1-grey-700: #2c2c2e; /* Borders and dividers */
+  --f1-grey-600: #3a3a3c; /* Hover states */
+  --f1-grey-500: #8e8e93; /* Secondary text */
+  --f1-grey-400: #c7c7cc; /* Primary text */
+  --f1-grey-300: #f2f2f7; /* White text */
+  --f1-grey-200: #e5e7eb;
+  --f1-grey-100: #f3f4f6;
+  --f1-grey-50: #f9fafb;
 
   /* 🏁 RACING TRACK FUNDAMENTALS */
-  --f1-black: #000000; /* Pure racing black */
-  --f1-white: #ffffff; /* Clean racing white */
-  --f1-dark: var(--f1-grey-900); /* Updated to use new grey */
-  --f1-light: var(--f1-grey-50); /* Updated to use new grey */
+  --f1-black: #000000;
+  --f1-white: #ffffff;
+  --f1-dark: var(--f1-grey-900);
+  --f1-light: var(--f1-grey-300);
 
   /* 🏆 CHAMPIONSHIP & PODIUM COLORS */
   --f1-gold: #f59e0b; /* Championship gold */
@@ -607,21 +607,8 @@
 
 /* 🏎️ GLOBAL BODY STYLES - Racing Aesthetic with F1 Patterns */
 body {
-  background: var(--pattern-carbon),
-    linear-gradient(135deg, var(--f1-grey-50) 0%, var(--f1-white) 100%),
-    radial-gradient(
-      circle at 20% 50%,
-      rgba(220, 38, 38, 0.015) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 20%,
-      rgba(220, 38, 38, 0.01) 0%,
-      transparent 50%
-    );
-  background-size: 20px 20px, 100% 100%, 800px 800px, 600px 600px;
-  background-attachment: fixed, fixed, fixed, fixed;
-  color: var(--f1-grey-900);
+  background-color: var(--f1-grey-900);
+  color: var(--f1-grey-400);
   font-family: var(--font-primary);
   font-weight: var(--fw-normal);
   font-size: var(--text-base);
@@ -638,7 +625,7 @@ h1,
   font-family: var(--font-racing);
   font-weight: var(--fw-black);
   font-size: var(--text-4xl);
-  color: var(--f1-grey-900);
+  color: var(--f1-light);
   letter-spacing: -0.5px;
   margin-bottom: 1rem;
 }
@@ -648,7 +635,7 @@ h2,
   font-family: var(--font-racing);
   font-weight: var(--fw-bold);
   font-size: var(--text-3xl);
-  color: var(--f1-grey-800);
+  color: var(--f1-light);
   letter-spacing: -0.3px;
   margin-bottom: 0.875rem;
 }
@@ -658,7 +645,7 @@ h3,
   font-family: var(--font-accent);
   font-weight: var(--fw-semibold);
   font-size: var(--text-2xl);
-  color: var(--f1-grey-800);
+  color: var(--f1-light);
   margin-bottom: 0.75rem;
 }
 
@@ -667,7 +654,7 @@ h4,
   font-family: var(--font-accent);
   font-weight: var(--fw-semibold);
   font-size: var(--text-xl);
-  color: var(--f1-grey-700);
+  color: var(--f1-grey-400);
   margin-bottom: 0.625rem;
 }
 
@@ -676,7 +663,7 @@ h5,
   font-family: var(--font-primary);
   font-weight: var(--fw-medium);
   font-size: var(--text-lg);
-  color: var(--f1-grey-700);
+  color: var(--f1-grey-400);
   margin-bottom: 0.5rem;
 }
 
@@ -685,7 +672,7 @@ h6,
   font-family: var(--font-primary);
   font-weight: var(--fw-medium);
   font-size: var(--text-base);
-  color: var(--f1-grey-600);
+  color: var(--f1-grey-500);
   margin-bottom: 0.5rem;
 }
 
@@ -704,8 +691,8 @@ h6,
 
 /* Navbar styles */
 .navbar {
-  background-color: var(--f1-dark) !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--f1-grey-800) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .navbar-brand {
@@ -716,23 +703,26 @@ h6,
 
 /* Card styling */
 .card {
-  border-radius: 8px;
-  border: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background-color: var(--f1-grey-800);
+  border-radius: 16px;
+  border: 1px solid var(--f1-grey-700);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 1.5rem;
+  color: var(--f1-light);
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .card-header {
-  background-color: var(--f1-red);
-  color: white;
-  border-radius: 8px 8px 0 0 !important;
-  padding: 0.75rem 1.25rem;
+  background-color: transparent;
+  color: var(--f1-light);
+  border-bottom: 1px solid var(--f1-grey-700);
+  border-radius: 16px 16px 0 0 !important;
+  padding: 1rem 1.5rem;
   font-weight: 600;
 }
 
@@ -742,13 +732,20 @@ h6,
 }
 
 .table th {
-  background-color: var(--f1-dark);
-  color: white;
-  border-color: var(--f1-dark);
+  background-color: var(--f1-grey-800);
+  color: var(--f1-light);
+  border-color: var(--f1-grey-700);
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.03);
+  background-color: var(--f1-grey-800);
+}
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: #2c2c2e;
+}
+.table-hover tbody tr:hover {
+  background-color: var(--f1-grey-600);
+  color: var(--f1-light);
 }
 
 /* Footer styling */
