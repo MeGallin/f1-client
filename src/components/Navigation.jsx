@@ -159,7 +159,6 @@ const Navigation = memo(() => {
               </Link>
             </li>
             <li className="nav-item">
-<<<<<<< HEAD
               <Link
                 className="nav-link"
                 to="/motorsport-news"
@@ -171,21 +170,11 @@ const Navigation = memo(() => {
                   fontWeight: isActive('/motorsport-news')
                     ? 'var(--fw-semibold)'
                     : 'var(--fw-normal)',
-=======
-              <button
-                className="nav-link btn btn-link"
-                onClick={() => setIsChatOpen(true)}
-                style={{
-                  color: 'var(--f1-grey-300)',
-                  fontFamily: 'var(--font-primary)',
-                  fontWeight: 'var(--fw-normal)',
->>>>>>> cbf3e4a (added agent mode)
                   fontSize: 'var(--text-base)',
                   padding: '0.75rem 1rem',
                   borderRadius: 'var(--border-radius)',
                   transition: 'var(--transition-normal)',
                   textDecoration: 'none',
-<<<<<<< HEAD
                   background: isActive('/motorsport-news')
                     ? 'var(--f1-red-muted)'
                     : 'transparent',
@@ -206,7 +195,20 @@ const Navigation = memo(() => {
                 <i className="fas fa-newspaper me-1"></i>
                 Motorsport News
               </Link>
-=======
+            </li>
+            <li className="nav-item">
+              <button
+                className="nav-link btn btn-link"
+                onClick={() => setIsChatOpen(true)}
+                style={{
+                  color: 'var(--f1-grey-300)',
+                  fontFamily: 'var(--font-primary)',
+                  fontWeight: 'var(--fw-normal)',
+                  fontSize: 'var(--text-base)',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--border-radius)',
+                  transition: 'var(--transition-normal)',
+                  textDecoration: 'none',
                   background: 'transparent',
                   border: 'none',
                 }}
@@ -222,7 +224,6 @@ const Navigation = memo(() => {
                 <i className="fas fa-robot me-1"></i>
                 AI Assistant
               </button>
->>>>>>> cbf3e4a (added agent mode)
             </li>
           </ul>
 
@@ -335,10 +336,7 @@ const Navigation = memo(() => {
       </div>
 
       {/* F1 Agent Chat Modal */}
-      <F1AgentChat 
-        isOpen={isChatOpen} 
-        onClose={() => setIsChatOpen(false)} 
-      />
+      <F1AgentChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </nav>
   );
 });
