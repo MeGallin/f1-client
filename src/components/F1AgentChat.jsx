@@ -12,7 +12,7 @@ const F1AgentChat = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedAgent, setSelectedAgent] = useState('multi-agent');
+  const [selectedAgent, setSelectedAgent] = useState('multiAgent');
   const [availableAgents, setAvailableAgents] = useState([]);
   const [agentStatus, setAgentStatus] = useState(null);
   const messagesEndRef = useRef(null);
@@ -30,7 +30,11 @@ const F1AgentChat = ({ isOpen, onClose }) => {
   // Focus input when modal opens
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      setTimeout(() => inputRef.current.focus(), 100);
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 100);
     }
   }, [isOpen]);
 
@@ -43,9 +47,9 @@ const F1AgentChat = ({ isOpen, onClose }) => {
       ]);
       
       if (agentsResult.success) {
-        setAvailableAgents(agentsResult.data);
+        setAvailableAgents(Array.isArray(agentsResult.data) ? agentsResult.data : []);
       } else {
-        setAvailableAgents(agentsResult.data); // Fallback data
+        setAvailableAgents(Array.isArray(agentsResult.data) ? agentsResult.data : []);
       }
       
       setAgentStatus(statusResult.success ? statusResult.data : statusResult.data);
@@ -64,16 +68,22 @@ const F1AgentChat = ({ isOpen, onClose }) => {
         type: 'agent',
         content: `🏎️ **Welcome to F1 AI Analysis!**
 
-I'm your F1 expert powered by advanced AI agents. I can help you with:
+I'm your intelligent F1 expert with **automatic agent routing**. I analyze your question and automatically select the best specialist agent(s):
 
+🎯 **AI Orchestrator** - Intelligently routes your query to:
 • **Season Analysis** - Multi-season trends and insights
 • **Driver Performance** - Career analysis and comparisons  
 • **Race Strategy** - Circuit analysis and tactical insights
 • **Championship Predictions** - Probability models and scenarios
 • **Historical Comparisons** - Cross-era analysis
-• **And much more!**
 
-What would you like to know about Formula 1?`,
+**How it works:**
+1. You ask any F1 question
+2. I analyze what you need  
+3. I route to the best specialist agent(s)
+4. You get expert, accurate responses
+
+Try asking: "Compare Hamilton vs Verstappen" or "Who will win the championship?"`,
         timestamp: new Date(),
         agentId: 'system'
       }]);
@@ -105,6 +115,9 @@ What would you like to know about Formula 1?`,
           timestamp: new Date(),
           agentId: result.data.agentUsed || selectedAgent,
           processingTime: result.data.processingTime,
+          confidence: result.data.confidence,
+          queryType: result.data.queryType,
+          agentsUsed: result.data.agentsUsed,
         };
         setMessages(prev => [...prev, agentMessage]);
       } else {
@@ -208,13 +221,34 @@ What would you like to know about Formula 1?`,
                   >
                     <div className="card-body p-3">
                       {message.type === 'agent' && (
-                        <div className="d-flex align-items-center mb-2">
-                          <i className="fas fa-robot me-2" style={{ color: 'var(--f1-red-primary)' }}></i>
-                          <small className="text-muted" style={{ fontFamily: 'var(--font-primary)', fontWeight: 'var(--fw-medium)' }}>
-                            F1 AI Agent {message.agentId && `(${message.agentId})`}
-                          </small>
-                          {message.processingTime && (
-                            <small className="text-muted ms-2">• {message.processingTime}s</small>
+                        <div className="mb-2">
+                          <div className="d-flex align-items-center mb-1">
+                            <i className="fas fa-robot me-2" style={{ color: 'var(--f1-red-primary)' }}></i>
+                            <small className="text-muted" style={{ fontFamily: 'var(--font-primary)', fontWeight: 'var(--fw-medium)' }}>
+                              F1 AI Agent {message.agentId && `(${message.agentId})`}
+                            </small>
+                            {message.processingTime && (
+                              <small className="text-muted ms-2">• {message.processingTime}s</small>
+                            )}
+                            {message.confidence && (
+                              <small className="text-muted ms-2">• {Math.round(message.confidence * 100)}% confidence</small>
+                            )}
+                          </div>
+                          {message.agentsUsed && message.agentsUsed.length > 1 && (
+                            <div className="mb-1">
+                              <small className="text-muted" style={{ fontSize: '0.7rem' }}>
+                                <i className="fas fa-network-wired me-1"></i>
+                                Routed to: {message.agentsUsed.join(', ')}
+                              </small>
+                            </div>
+                          )}
+                          {message.queryType && (
+                            <div className="mb-1">
+                              <small className="text-muted" style={{ fontSize: '0.7rem' }}>
+                                <i className="fas fa-tag me-1"></i>
+                                Analysis: {message.queryType}
+                              </small>
+                            </div>
                           )}
                         </div>
                       )}

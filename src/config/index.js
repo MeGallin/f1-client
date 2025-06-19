@@ -124,9 +124,9 @@ export const EXTERNAL_CONFIG = {
   sentryDsn: import.meta.env.VITE_F1_SENTRY_DSN || '',
   feedbackUrl: import.meta.env.VITE_F1_FEEDBACK_URL || '',
   mcpServerUrl:
-    import.meta.env.VITE_F1_MCP_SERVER_URL || 'http://localhost:3001',
+    import.meta.env.VITE_F1_MCP_SERVER_URL || 'https://f1-mcp-server-5dh3.onrender.com',
   langgraphAgentsUrl:
-    import.meta.env.VITE_F1_LANGGRAPH_AGENTS_URL || 'http://localhost:3002',
+    import.meta.env.VITE_F1_LANGGRAPH_AGENTS_URL || 'https://f1-langgraph-agents.onrender.com',
 };
 
 // Environment Detection
