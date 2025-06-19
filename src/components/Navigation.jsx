@@ -21,7 +21,7 @@ const Navigation = memo(() => {
 
   return (
     <nav
-      className="navbar navbar-expand-lg sticky-top"
+      className="navbar navbar-expand-lg"
       style={{
         background: 'var(--f1-gradient-dark)',
         boxShadow: 'var(--shadow-racing)',

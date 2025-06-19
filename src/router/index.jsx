@@ -24,18 +24,31 @@ const MotorsportNewsPage = React.lazy(() => import('../pages/MotorsportNews'));
  */
 const RootLayout = () => {
   return (
-    <div className="app-layout">
-      <Navigation />
+    <div className="app-layout d-flex flex-column min-vh-100">
+      {/* Fixed header section */}
+      <header className="app-header">
+        <Navigation />
+        <F1NewsTicker />
+      </header>
+
+      {/* Main content with flex-grow to push footer down */}
       <ErrorBoundary>
-        <main className="main-content">
+        <main className="main-content flex-grow-1">
           <Suspense fallback={<LoadingIndicator message="Loading page..." />}>
             <Outlet />
           </Suspense>
         </main>
       </ErrorBoundary>
 
-      {/* F1 News Ticker - Fixed at bottom */}
-      <F1NewsTicker />
+      {/* Footer */}
+      <footer className="bg-dark text-white py-4">
+        <div className="container text-center">
+          <p className="mb-1">© {new Date().getFullYear()} F1 Data Explorer</p>
+          <p className="mb-0 small text-muted">
+            Built with React, Vite, Bootstrap, Jotai & Router
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };

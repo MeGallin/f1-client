@@ -12,10 +12,10 @@ const HeroSection = ({
 }) => {
   return (
     <section
-      className="text-white py-4 mb-4 position-relative"
+      className="text-white py-3 mb-3 position-relative"
       style={{
         background: 'var(--f1-gradient-dark)',
-        minHeight: '30vh',
+        minHeight: '15vh',
         overflow: 'hidden',
       }}
     >
@@ -50,10 +50,10 @@ const HeroSection = ({
         <div className="row align-items-center w-100">
           <div className="col-lg-8">
             {/* Main Title with Enhanced Typography */}
-            <div className="mb-4">
+            <div className="mb-2">
               {' '}
               <h1
-                className="display-3 fw-black mb-3"
+                className="display-4 fw-black mb-2"
                 style={{
                   fontFamily: 'var(--font-racing)',
                   fontWeight: 'var(--fw-black)',
@@ -74,13 +74,13 @@ const HeroSection = ({
                 {title}
               </h1>
               <p
-                className="lead mb-4"
+                className="lead mb-2"
                 style={{
-                  fontSize: 'var(--text-xl)',
+                  fontSize: 'var(--text-lg)',
                   fontFamily: 'var(--font-primary)',
                   opacity: 0.9,
                   fontWeight: '300',
-                  lineHeight: '1.6',
+                  lineHeight: '1.4',
                   animation: 'heroTextSlide 1s ease-out 0.3s both',
                 }}
               >

@@ -46,6 +46,9 @@
 
 /* 🏎️ F1 RACING COLOR PALETTE - Enhanced Version */
 :root {
+  /* Navigation height for positioning elements */
+  --navbar-height: 56px; /* Default Bootstrap navbar height */
+
   /* 🔴 PRIMARY RACING REDS - The Star Colors! */
   --f1-red-primary: #dc2626; /* Your beloved F1 red - slightly refined */
   --f1-red-dark: #b91c1c; /* Deep racing red for hover states */
@@ -1610,36 +1613,48 @@ body {
 }
 
 /* =============================================================================
-F1 NEWS TICKER LAYOUT ADJUSTMENTS
+APP LAYOUT STRUCTURE
 ============================================================================= */
 
-/* Add bottom padding to prevent content from being hidden behind fixed ticker */
-.App {
-  padding-bottom: 28px; /* Further reduced height of ticker on mobile */
+/* App layout with flexbox */
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Adjust footer margin to account for ticker */
-.App footer {
-  margin-bottom: 28px; /* Push footer up to accommodate ticker */
+/* Header section with navbar and ticker */
+.app-header {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive adjustments for ticker spacing */
+/* Main content area */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive navbar heights */
+:root {
+  --navbar-height: 56px; /* Default Bootstrap navbar height */
+}
+
 @media (min-width: 768px) {
-  .App {
-    padding-bottom: 32px; /* Further reduced ticker height on tablet */
-  }
-
-  .App footer {
-    margin-bottom: 32px;
+  :root {
+    --navbar-height: 60px;
   }
 }
 
 @media (min-width: 1024px) {
-  .App {
-    padding-bottom: 36px; /* Further reduced ticker height on desktop */
+  :root {
+    --navbar-height: 64px;
   }
+}
 
-  .App footer {
-    margin-bottom: 36px;
-  }
+/* Ensure hero section has proper spacing */
+.f1-hero {
+  margin-top: 0;
 }
