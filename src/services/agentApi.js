@@ -6,7 +6,6 @@
  */
 
 import axios from 'axios';
-import { EXTERNAL_CONFIG } from '../config';
 
 class F1AgentApiService {
   constructor() {
