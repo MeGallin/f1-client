@@ -10,7 +10,8 @@ import { EXTERNAL_CONFIG } from '../config';
 
 class F1AgentApiService {
   constructor() {
-    this.baseURL = EXTERNAL_CONFIG.langgraphAgentsUrl;
+    // Use environment variable or fallback to localhost for development
+    this.baseURL = import.meta.env.VITE_F1_LANGGRAPH_AGENTS_URL || 'http://localhost:8000';
     console.log('🤖 F1 Agent API initialized with URL:', this.baseURL);
     console.log('🔧 Environment check - VITE_F1_LANGGRAPH_AGENTS_URL:', import.meta.env.VITE_F1_LANGGRAPH_AGENTS_URL);
     this.client = axios.create({
@@ -119,22 +120,34 @@ class F1AgentApiService {
   }
 
   /**
-   * Get fallback agent list
+   * Get fallback agent list - Updated for F1 Sequential Agents
    */
   getFallbackAgents() {
     return [
       { id: 'multiAgent', name: 'AI Orchestrator', icon: '🎯', description: 'Intelligent routing to best agent (Recommended)' },
-      { id: 'seasonAnalysis', name: 'Season Analysis', icon: '🏎️', description: 'Direct season analysis specialist' },
+      { id: 'raceResults', name: 'Race Results', icon: '🏁', description: 'Race outcome analysis and insights' },
+      { id: 'circuit', name: 'Circuit Analysis', icon: '🏎️', description: 'Circuit-specific data and track insights' },
+      { id: 'driver', name: 'Driver Performance', icon: '👨‍🏎️', description: 'Individual driver performance and statistics' },
+      { id: 'constructor', name: 'Constructor Analysis', icon: '🏭', description: 'Team/constructor performance analysis' },
+      { id: 'championship', name: 'Championship Predictor', icon: '🏆', description: 'Championship standings and predictions' },
+      { id: 'historical', name: 'Historical Comparison', icon: '📊', description: 'Historical data analysis and comparisons' },
     ];
   }
 
   /**
-   * Get display name for agent ID
+   * Get display name for agent ID - Updated for F1 Sequential Agents
    */
   getAgentDisplayName(agentId) {
     const names = {
+      'multiAgent': 'AI Orchestrator',
+      'raceResults': 'Race Results',
+      'circuit': 'Circuit Analysis',
+      'driver': 'Driver Performance',
+      'constructor': 'Constructor Analysis',
+      'championship': 'Championship Predictor',
+      'historical': 'Historical Comparison',
+      // Legacy mappings for backward compatibility
       'seasonAnalysis': 'Season Analysis',
-      'multiAgent': 'AI Orchestrator', 
       'driver-performance': 'Driver Performance',
       'race-strategy': 'Race Strategy',
       'championship-predictor': 'Championship Predictor',
@@ -144,12 +157,19 @@ class F1AgentApiService {
   }
 
   /**
-   * Get icon for agent ID
+   * Get icon for agent ID - Updated for F1 Sequential Agents
    */
   getAgentIcon(agentId) {
     const icons = {
-      'seasonAnalysis': '🏎️',
       'multiAgent': '🎯',
+      'raceResults': '🏁',
+      'circuit': '🏎️',
+      'driver': '👨‍🏎️',
+      'constructor': '🏭',
+      'championship': '🏆',
+      'historical': '📊',
+      // Legacy mappings for backward compatibility
+      'seasonAnalysis': '🏎️',
       'driver-performance': '👨‍🏎️',
       'race-strategy': '🏁',
       'championship-predictor': '🏆',
@@ -165,32 +185,25 @@ class F1AgentApiService {
     try {
       const payload = {
         query,
+        agentId, // Pass the selected agent ID to the Sequential Agents system
         ...options,
       };
 
-      console.log('🤖 Sending query to agent:', agentId, 'Query:', query.substring(0, 50) + '...');
+      console.log('🤖 Sending query to F1 Sequential Agents - Agent:', agentId, 'Query:', query.substring(0, 50) + '...');
+      console.log('🔧 Using baseURL:', this.baseURL);
+      console.log('🔧 Client baseURL:', this.client.defaults.baseURL);
       
-      // Map agent IDs to their specific endpoints
-      let endpoint;
-      switch (agentId) {
-        case 'season-analysis':
-        case 'seasonAnalysis':
-          // Use specific season analysis agent
-          endpoint = '/agents/season/analyze';
-          break;
-        case 'multi-agent':
-        case 'multiAgent':
-          // Use the intelligent multi-agent orchestrator (router)
-          console.log('🤖 Using Multi-Agent Orchestrator for intelligent routing');
-          endpoint = '/agents/analyze';
-          break;
-        default:
-          // For all other agents, use the intelligent router
-          console.log('🤖 Using Multi-Agent Orchestrator for automatic agent selection');
-          endpoint = '/agents/analyze';
-      }
+      // F1 Sequential Agents uses a unified endpoint
+      const endpoint = '/agents/analyze';
+      
+      // Force recreate client with current baseURL to avoid caching issues
+      const freshClient = axios.create({
+        baseURL: this.baseURL,
+        timeout: 60000,
+        headers: { 'Content-Type': 'application/json' }
+      });
 
-      const response = await this.client.post(endpoint, payload);
+      const response = await freshClient.post(endpoint, payload);
       
       return {
         success: true,
@@ -270,20 +283,20 @@ The AI agents are designed to provide expert F1 analysis and should work once th
   }
 
   /**
-   * Get example queries for inspiration
+   * Get example queries for inspiration - Updated for F1 Sequential Agents
    */
   getExampleQueries() {
     return [
-      "Who are the top 3 drivers this season and how do they compare?",
-      "What are the key strategic factors for the next race?",
-      "How does Lewis Hamilton's 2024 performance compare to his championship years?",
+      "Who were the top 5 finishers at Monaco this year?",
+      "Compare Max Verstappen and Lewis Hamilton's career statistics",
+      "Which constructor has the strongest car performance this season?",
       "Predict the championship outcome based on current standings",
-      "Which constructor has the best development trajectory this season?",
-      "What are the most challenging circuits for overtaking this year?",
-      "Compare the current era to the V8 engine era",
-      "What weather conditions could affect the next race strategy?",
-      "Which driver pairing works best together?",
-      "How have regulation changes affected competitive balance?"
+      "How does Silverstone's lap times compare across different eras?",
+      "What are the key strategic factors for wet weather races?",
+      "Analyze Red Bull Racing's development trajectory",
+      "Compare the current power unit era to the V8 engine era",
+      "Which circuits favor Mercedes vs Ferrari this season?",
+      "What historical trends predict tomorrow's race outcome?"
     ];
   }
 }
