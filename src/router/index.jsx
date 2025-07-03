@@ -11,10 +11,12 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ErrorBoundary from '../components/ErrorBoundary';
 import Navigation from '../components/Navigation';
+import F1NewsTicker from '../components/F1NewsTicker';
 
 // Lazy load pages for code splitting and performance
 const HomePage = React.lazy(() => import('../pages/Home'));
 const HistoryPage = React.lazy(() => import('../pages/History'));
+const MotorsportNewsPage = React.lazy(() => import('../pages/MotorsportNews'));
 
 /**
  * Root Layout Component
@@ -22,15 +24,31 @@ const HistoryPage = React.lazy(() => import('../pages/History'));
  */
 const RootLayout = () => {
   return (
-    <div className="app-layout">
-      <Navigation />
+    <div className="app-layout d-flex flex-column min-vh-100">
+      {/* Fixed header section */}
+      <header className="app-header">
+        <Navigation />
+        <F1NewsTicker />
+      </header>
+
+      {/* Main content with flex-grow to push footer down */}
       <ErrorBoundary>
-        <main className="main-content">
+        <main className="main-content flex-grow-1">
           <Suspense fallback={<LoadingIndicator message="Loading page..." />}>
             <Outlet />
           </Suspense>
         </main>
       </ErrorBoundary>
+
+      {/* Footer */}
+      <footer className="bg-dark text-white py-4">
+        <div className="container text-center">
+          <p className="mb-1">© {new Date().getFullYear()} F1 Data Explorer</p>
+          <p className="mb-0 small text-muted">
+            Built with React, Vite, Bootstrap, Jotai & Router
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
@@ -69,6 +87,10 @@ export const router = createBrowserRouter([
       {
         path: 'history/:season/:round',
         element: <HistoryPage />,
+      },
+      {
+        path: 'motorsport-news',
+        element: <MotorsportNewsPage />,
       },
     ],
   },

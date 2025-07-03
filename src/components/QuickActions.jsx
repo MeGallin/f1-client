@@ -4,11 +4,21 @@
  * Reusable quick actions section with navigation and utility buttons
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import F1AgentChat from './F1AgentChat';
 
 const QuickActions = ({ actions = [] }) => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  
   const defaultActions = [
+    {
+      type: 'button',
+      onClick: () => setIsChatOpen(true),
+      className: 'btn btn-primary',
+      icon: 'fas fa-robot',
+      text: 'ASK AI ASSISTANT',
+    },
     {
       type: 'link',
       to: '/history',
@@ -29,13 +39,6 @@ const QuickActions = ({ actions = [] }) => {
       className: 'btn btn-outline-secondary',
       icon: 'fas fa-external-link-alt',
       text: 'OFFICIAL F1',
-    },
-    {
-      type: 'button',
-      onClick: () => window.location.reload(),
-      className: 'btn btn-outline-warning',
-      icon: 'fas fa-sync',
-      text: 'REFRESH DATA',
     },
   ];
 
@@ -99,46 +102,54 @@ const QuickActions = ({ actions = [] }) => {
   };
 
   return (
-    <div className="row">
-      <div className="col-12">
-        <div className="f1-carbon-card">
-          <div
-            className="card-header"
-            style={{
-              background: 'var(--f1-gradient-dark)',
-              color: 'var(--f1-white)',
-              borderRadius:
-                'var(--border-radius-lg) var(--border-radius-lg) 0 0',
-            }}
-          >
-            <h5
-              className="mb-0"
+    <>
+      <div className="row">
+        <div className="col-12">
+          <div className="f1-carbon-card">
+            <div
+              className="card-header"
               style={{
-                fontFamily: 'var(--font-racing)',
-                fontWeight: 'var(--fw-bold)',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
+                background: 'var(--f1-gradient-dark)',
+                color: 'var(--f1-white)',
+                borderRadius:
+                  'var(--border-radius-lg) var(--border-radius-lg) 0 0',
               }}
             >
-              <i className="fas fa-rocket me-2"></i>
-              QUICK ACTIONS
-            </h5>
-          </div>
-          <div
-            className="card-body p-4"
-            style={{ background: 'var(--f1-grey-900)' }}
-          >
-            <div className="row g-3">
-              {actionsToRender.map((action, index) => (
-                <div key={index} className="col-md-3">
-                  {renderAction(action, index)}
-                </div>
-              ))}
+              <h5
+                className="mb-0"
+                style={{
+                  fontFamily: 'var(--font-racing)',
+                  fontWeight: 'var(--fw-bold)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                }}
+              >
+                <i className="fas fa-robot me-2" style={{ color: 'var(--f1-red-primary)' }}></i>
+                QUICK ACTIONS
+              </h5>
+            </div>
+            <div
+              className="card-body p-4"
+              style={{ background: 'var(--f1-grey-900)' }}
+            >
+              <div className="row g-3">
+                {actionsToRender.map((action, index) => (
+                  <div key={index} className="col-md-3">
+                    {renderAction(action, index)}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      
+      {/* F1 Agent Chat Modal */}
+      <F1AgentChat 
+        isOpen={isChatOpen} 
+        onClose={() => setIsChatOpen(false)} 
+      />
+    </>
   );
 };
 

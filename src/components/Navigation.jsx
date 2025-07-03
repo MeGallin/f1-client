@@ -5,12 +5,14 @@
  * active route highlighting and responsive design.
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { APP_CONFIG } from '../config';
+import F1AgentChat from './F1AgentChat';
 
 const Navigation = memo(() => {
   const location = useLocation();
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const isActive = (path) => {
     if (path === '/') {
@@ -21,7 +23,7 @@ const Navigation = memo(() => {
 
   return (
     <nav
-      className="navbar navbar-expand-lg sticky-top"
+      className="navbar navbar-expand-lg"
       style={{
         background: 'var(--f1-gradient-dark)',
         boxShadow: 'var(--shadow-racing)',
@@ -98,8 +100,13 @@ const Navigation = memo(() => {
                   transition: 'var(--transition-normal)',
                   textDecoration: 'none',
                   background: isActive('/')
-                    ? 'var(--f1-red-muted)'
+                    ? 'linear-gradient(145deg, rgba(220, 38, 127, 0.15), rgba(28, 28, 30, 0.3))'
                     : 'transparent',
+                  border: isActive('/')
+                    ? '1px solid rgba(220, 38, 127, 0.3)'
+                    : '1px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive('/')) {
@@ -114,8 +121,23 @@ const Navigation = memo(() => {
                   }
                 }}
               >
+                {isActive('/') && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '2px',
+                      background:
+                        'linear-gradient(90deg, transparent, rgba(220, 38, 127, 0.8), transparent)',
+                      borderRadius:
+                        'var(--border-radius) var(--border-radius) 0 0',
+                    }}
+                  />
+                )}
                 <i className="fas fa-home me-1"></i>
-                Live Dashboard
+                F1 Dashboard
               </Link>
             </li>
             <li className="nav-item">
@@ -136,8 +158,13 @@ const Navigation = memo(() => {
                   transition: 'var(--transition-normal)',
                   textDecoration: 'none',
                   background: isActive('/history')
-                    ? 'var(--f1-red-muted)'
+                    ? 'linear-gradient(145deg, rgba(220, 38, 127, 0.15), rgba(28, 28, 30, 0.3))'
                     : 'transparent',
+                  border: isActive('/history')
+                    ? '1px solid rgba(220, 38, 127, 0.3)'
+                    : '1px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive('/history')) {
@@ -152,9 +179,111 @@ const Navigation = memo(() => {
                   }
                 }}
               >
+                {isActive('/history') && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '2px',
+                      background:
+                        'linear-gradient(90deg, transparent, rgba(220, 38, 127, 0.8), transparent)',
+                      borderRadius:
+                        'var(--border-radius) var(--border-radius) 0 0',
+                    }}
+                  />
+                )}
                 <i className="fas fa-history me-1"></i>
                 Historical Data
               </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="/motorsport-news"
+                style={{
+                  color: isActive('/motorsport-news')
+                    ? 'var(--f1-red-light)'
+                    : 'var(--f1-grey-300)',
+                  fontFamily: 'var(--font-primary)',
+                  fontWeight: isActive('/motorsport-news')
+                    ? 'var(--fw-semibold)'
+                    : 'var(--fw-normal)',
+                  fontSize: 'var(--text-base)',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--border-radius)',
+                  transition: 'var(--transition-normal)',
+                  textDecoration: 'none',
+                  background: isActive('/motorsport-news')
+                    ? 'linear-gradient(145deg, rgba(220, 38, 127, 0.15), rgba(28, 28, 30, 0.3))'
+                    : 'transparent',
+                  border: isActive('/motorsport-news')
+                    ? '1px solid rgba(220, 38, 127, 0.3)'
+                    : '1px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive('/motorsport-news')) {
+                    e.target.style.color = 'var(--f1-white)';
+                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive('/motorsport-news')) {
+                    e.target.style.color = 'var(--f1-grey-300)';
+                    e.target.style.background = 'transparent';
+                  }
+                }}
+              >
+                {isActive('/motorsport-news') && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '2px',
+                      background:
+                        'linear-gradient(90deg, transparent, rgba(220, 38, 127, 0.8), transparent)',
+                      borderRadius:
+                        'var(--border-radius) var(--border-radius) 0 0',
+                    }}
+                  />
+                )}
+                <i className="fas fa-newspaper me-1"></i>
+                Motorsport News
+              </Link>
+            </li>
+            <li className="nav-item">
+              <button
+                className="nav-link btn btn-link"
+                onClick={() => setIsChatOpen(true)}
+                style={{
+                  color: 'var(--f1-grey-300)',
+                  fontFamily: 'var(--font-primary)',
+                  fontWeight: 'var(--fw-normal)',
+                  fontSize: 'var(--text-base)',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--border-radius)',
+                  transition: 'var(--transition-normal)',
+                  textDecoration: 'none',
+                  background: 'transparent',
+                  border: 'none',
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.color = 'var(--f1-white)';
+                  e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.color = 'var(--f1-grey-300)';
+                  e.target.style.background = 'transparent';
+                }}
+              >
+                <i className="fas fa-robot me-1"></i>
+                AI Assistant
+              </button>
             </li>
           </ul>
 
@@ -265,6 +394,9 @@ const Navigation = memo(() => {
           </ul>
         </div>
       </div>
+
+      {/* F1 Agent Chat Modal */}
+      <F1AgentChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </nav>
   );
 });

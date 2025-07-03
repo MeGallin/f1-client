@@ -1,0 +1,163 @@
+/* F1 News Ticker Styles */
+
+.f1-ticker-container {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  border-bottom: 3px solid #dc2626;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  height: 28px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-height: 28px;
+  width: 100%;
+}
+
+/* App header layout */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1045; /* Above content but below modals */
+  width: 100%;
+}
+
+/* No margin between navbar and ticker */
+.app-header .navbar {
+  margin-bottom: 0;
+}
+
+/* Ticker Label */
+.f1-ticker-label {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  padding: 0 0.5rem; /* Further reduced from 0.75rem */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem; /* Further reduced from 0.4rem */
+  font-weight: 600;
+  font-size: 0.65rem; /* Reduced from 0.7rem */
+  letter-spacing: 0.3px; /* Reduced from 0.4px */
+  min-width: 80px; /* Further reduced from 100px */
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.f1-ticker-label:hover {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+.f1-ticker-brand {
+  font-size: 0.65rem; /* Reduced from 0.7rem */
+  white-space: nowrap;
+}
+
+.f1-ticker-count {
+  font-size: 0.6rem; /* Reduced from 0.65rem */
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+/* Ticker Content Area */
+.f1-ticker-content {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(90deg, #1f2937 0%, #111827 100%);
+}
+
+/* Ticker Items */
+.f1-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem; /* Further reduced from 0.4rem */
+  padding: 0 1.2rem; /* Further reduced from 1.5rem */
+  white-space: nowrap;
+  color: white;
+  font-size: 0.75rem; /* Reduced from 0.8rem */
+  font-weight: 400;
+}
+
+.f1-ticker-item.error {
+  color: #fca5a5;
+}
+
+.f1-ticker-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.f1-ticker-text {
+  font-size: 0.75rem; /* Reduced from 0.8rem */
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.f1-ticker-source {
+  font-size: 0.65rem; /* Reduced from 0.7rem */
+  opacity: 0.7;
+  font-weight: 300;
+  margin-left: 0.25rem;
+}
+
+/* Responsive Design - Mobile First */
+
+/* Small Mobile - 480px and up */
+@media (min-width: 480px) {
+  .f1-ticker-brand {
+    font-size: 0.75rem; /* Slightly larger on bigger screens */
+  }
+
+  .f1-ticker-label {
+    min-width: 110px;
+  }
+
+  .f1-ticker-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Tablet - 768px and up */
+@media (min-width: 768px) {
+  .f1-ticker-container {
+    height: 32px; /* Reduced from 40px */
+    min-height: 32px;
+  }
+
+  .f1-ticker-label {
+    min-width: 90px; /* Reduced from 120px */
+    padding: 0 0.6rem; /* Reduced from 1rem */
+  }
+
+  .f1-ticker-brand {
+    font-size: 0.7rem; /* Reduced from 0.8rem */
+  }
+
+  .f1-ticker-text {
+    font-size: 0.8rem; /* Reduced from 0.9rem */
+  }
+}
+
+/* Desktop - 1024px and up */
+@media (min-width: 1024px) {
+  .f1-ticker-container {
+    height: 36px; /* Reduced from 45px */
+    min-height: 36px;
+  }
+
+  .f1-ticker-label {
+    min-width: 100px; /* Reduced from 130px */
+    padding: 0 0.75rem; /* Reduced from 1.25rem */
+  }
+
+  .f1-ticker-brand {
+    font-size: 0.75rem; /* Reduced from 0.85rem */
+  }
+
+  .f1-ticker-text {
+    font-size: 0.85rem; /* Reduced from 0.95rem */
+  }
+}

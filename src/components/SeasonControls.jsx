@@ -21,11 +21,11 @@ const SeasonControls = ({
     <div className="row mb-4 g-4">
       {/* Season Selection */}
       <div className="col-lg-6 col-md-12">
+        {' '}
         <div
           className="f1-card h-100"
           style={{
-            background:
-              'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(220, 38, 38, 0.02) 100%)',
+            background: 'rgba(255, 255, 255, 0.85)',
             border: '1px solid rgba(220, 38, 38, 0.1)',
             boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
           }}
@@ -195,11 +195,11 @@ const SeasonControls = ({
 
       {/* View Mode Controls */}
       <div className="col-lg-6 col-md-12">
+        {' '}
         <div
           className="f1-card h-100"
           style={{
-            background:
-              'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(59, 130, 246, 0.02) 100%)',
+            background: 'rgba(255, 255, 255, 0.85)',
             border: '1px solid rgba(59, 130, 246, 0.1)',
             boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
           }}

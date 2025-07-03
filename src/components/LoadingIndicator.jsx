@@ -17,7 +17,7 @@ export const LoadingIndicator = memo(() => {
   // Memoize loading message based on current route
   const loadingMessage = useMemo(() => {
     if (location.pathname === '/') {
-      return 'Loading live F1 dashboard data...';
+      return 'Loading F1 dashboard data...';
     }
     if (location.pathname.startsWith('/history')) {
       const pathParts = location.pathname.split('/');

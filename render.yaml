@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: f1-client-ui
+    env: static
+    buildCommand: npm ci && npm run build:prod
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_F1_LANGGRAPH_AGENTS_URL
+        value: https://f1-sequential-agents.onrender.com
+      - key: VITE_F1_DEBUG_MODE
+        value: false
+      - key: VITE_F1_LOG_LEVEL
+        value: error
+      - key: VITE_F1_ENABLE_CONSOLE_LOGS
+        value: false
+      - key: NODE_ENV
+        value: production

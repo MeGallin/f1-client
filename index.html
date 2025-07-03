@@ -7,11 +7,11 @@
     <!-- SEO Meta Tags -->
     <meta
       name="description"
-      content="F1 MCP LangGraph Client - Live Formula 1 data powered by MCP tools and production APIs"
+      content="F1 MCP LangGraph Client - Formula 1 data powered by MCP tools and production APIs"
     />
     <meta
       name="keywords"
-      content="Formula 1, F1, MCP, LangGraph, Racing Data, Live Data"
+      content="Formula 1, F1, MCP, LangGraph, Racing Data, Championship Data"
     />
     <meta name="author" content="F1 MCP LangGraph System" />
 
@@ -19,7 +19,7 @@
     <meta property="og:title" content="F1 MCP LangGraph Client" />
     <meta
       property="og:description"
-      content="Live Formula 1 data powered by MCP tools and production APIs"
+      content="Formula 1 data powered by MCP tools and production APIs"
     />
     <meta property="og:type" content="website" />
 
@@ -35,7 +35,17 @@
 
     <!-- CSS will be injected by Vite -->
   </head>
-  <body>
+  <body
+    style="
+      background-image: url('/latest.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-color: #111827;
+      min-height: 100vh;
+    "
+  >
     <!-- Loading Screen -->
     <div
       id="loading-screen"
@@ -72,7 +82,7 @@
         <p style="font-size: 1rem; opacity: 0.8"
           >Loading production F1 data...</p
         >
-        <small style="opacity: 0.6">Connecting to live MCP services</small>
+        <small style="opacity: 0.6">Connecting to MCP services</small>
       </div>
     </div>
 

@@ -1,0 +1,131 @@
+/* TopDriversCard.css */
+
+.top-drivers-card {
+  background-color: var(--f1-grey-800);
+  border-radius: var(--border-radius-xl);
+  border: 1px solid var(--f1-grey-700);
+  color: var(--f1-light);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-drivers-card .card-header {
+  background: linear-gradient(135deg, var(--f1-gold) 0%, #ffa500 100%);
+  color: var(--f1-grey-900);
+  border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  border: none;
+}
+
+.top-drivers-card .card-title {
+  font-family: var(--font-racing);
+  font-weight: var(--fw-black);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.25rem;
+}
+
+.top-drivers-card .card-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  font-weight: var(--fw-medium);
+}
+
+.top-drivers-card .card-body {
+  padding: 2rem 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.podium-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.podium-step {
+  text-align: center;
+  flex: 0 0 28%;
+}
+
+.podium-place {
+  border-radius: 12px;
+  padding: 1.25rem 0.75rem;
+  font-size: 1.8rem;
+  font-weight: var(--fw-black);
+  font-family: var(--font-racing);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.podium-place.gold {
+  background: linear-gradient(135deg, var(--f1-gold) 0%, #ffa500 100%);
+  color: var(--f1-grey-900);
+  border: 2px solid #daa520;
+  transform: scale(1.05) translateY(-10px);
+  font-size: 2.2rem;
+  min-height: 90px;
+  flex-basis: 32%;
+}
+
+.podium-place.silver {
+  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+  color: var(--f1-grey-900);
+  border: 2px solid #a8a8a8;
+}
+
+.podium-place.bronze {
+  background: linear-gradient(135deg, #cd7f32 0%, #d4af37 100%);
+  color: var(--f1-white);
+  border: 2px solid #b87333;
+}
+
+.podium-driver-name {
+  font-family: var(--font-racing);
+  font-weight: var(--fw-bold);
+  font-size: 0.9rem;
+  color: var(--f1-light);
+  line-height: 1.2;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.podium-driver-points {
+  color: var(--f1-red-primary);
+  font-weight: var(--fw-bold);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.view-standings-btn {
+  background: var(--f1-gradient-red);
+  color: var(--f1-white);
+  border: none;
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+  font-weight: var(--fw-bold);
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+  transition: all 0.3s ease;
+}
+
+.view-standings-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}

@@ -1,0 +1,106 @@
+/* HeroSection.css */
+
+.hero-section {
+  background: transparent;
+  min-height: 25vh; /* Increased height for more impact */
+  overflow: hidden;
+  position: relative;
+  color: var(--f1-white);
+}
+
+.hero-background-elements {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 20% 50%,
+      rgba(220, 38, 38, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(245, 158, 11, 0.05) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 90%,
+      rgba(59, 130, 246, 0.05) 0%,
+      transparent 50%
+    );
+  animation: raceTrackGlow 8s ease-in-out infinite alternate;
+}
+
+.hero-stripes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.15;
+  animation: raceStripes 20s linear infinite;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.03) 10px,
+    rgba(255, 255, 255, 0.03) 20px
+  );
+}
+
+.hero-title {
+  font-family: var(--font-racing);
+  font-weight: var(--fw-black);
+  letter-spacing: -2px;
+  color: var(--f1-white);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  line-height: 1.1;
+  animation: heroTextSlide 1s ease-out;
+}
+
+.hero-subtitle {
+  font-size: var(--text-lg);
+  font-family: var(--font-primary);
+  opacity: 0.9;
+  font-weight: 300;
+  line-height: 1.4;
+  animation: heroTextSlide 1s ease-out 0.3s both;
+}
+
+@keyframes raceTrackGlow {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes raceStripes {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100px);
+  }
+}
+
+@keyframes heroTextSlide {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes flagWave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
