@@ -100,8 +100,13 @@ const Navigation = memo(() => {
                   transition: 'var(--transition-normal)',
                   textDecoration: 'none',
                   background: isActive('/')
-                    ? 'var(--f1-red-muted)'
+                    ? 'linear-gradient(145deg, rgba(220, 38, 127, 0.15), rgba(28, 28, 30, 0.3))'
                     : 'transparent',
+                  border: isActive('/')
+                    ? '1px solid rgba(220, 38, 127, 0.3)'
+                    : '1px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive('/')) {
@@ -116,6 +121,21 @@ const Navigation = memo(() => {
                   }
                 }}
               >
+                {isActive('/') && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '2px',
+                      background:
+                        'linear-gradient(90deg, transparent, rgba(220, 38, 127, 0.8), transparent)',
+                      borderRadius:
+                        'var(--border-radius) var(--border-radius) 0 0',
+                    }}
+                  />
+                )}
                 <i className="fas fa-home me-1"></i>
                 F1 Dashboard
               </Link>
@@ -138,8 +158,13 @@ const Navigation = memo(() => {
                   transition: 'var(--transition-normal)',
                   textDecoration: 'none',
                   background: isActive('/history')
-                    ? 'var(--f1-red-muted)'
+                    ? 'linear-gradient(145deg, rgba(220, 38, 127, 0.15), rgba(28, 28, 30, 0.3))'
                     : 'transparent',
+                  border: isActive('/history')
+                    ? '1px solid rgba(220, 38, 127, 0.3)'
+                    : '1px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive('/history')) {
@@ -154,6 +179,21 @@ const Navigation = memo(() => {
                   }
                 }}
               >
+                {isActive('/history') && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '2px',
+                      background:
+                        'linear-gradient(90deg, transparent, rgba(220, 38, 127, 0.8), transparent)',
+                      borderRadius:
+                        'var(--border-radius) var(--border-radius) 0 0',
+                    }}
+                  />
+                )}
                 <i className="fas fa-history me-1"></i>
                 Historical Data
               </Link>
@@ -176,8 +216,13 @@ const Navigation = memo(() => {
                   transition: 'var(--transition-normal)',
                   textDecoration: 'none',
                   background: isActive('/motorsport-news')
-                    ? 'var(--f1-red-muted)'
+                    ? 'linear-gradient(145deg, rgba(220, 38, 127, 0.15), rgba(28, 28, 30, 0.3))'
                     : 'transparent',
+                  border: isActive('/motorsport-news')
+                    ? '1px solid rgba(220, 38, 127, 0.3)'
+                    : '1px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive('/motorsport-news')) {
@@ -192,6 +237,21 @@ const Navigation = memo(() => {
                   }
                 }}
               >
+                {isActive('/motorsport-news') && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '2px',
+                      background:
+                        'linear-gradient(90deg, transparent, rgba(220, 38, 127, 0.8), transparent)',
+                      borderRadius:
+                        'var(--border-radius) var(--border-radius) 0 0',
+                    }}
+                  />
+                )}
                 <i className="fas fa-newspaper me-1"></i>
                 Motorsport News
               </Link>

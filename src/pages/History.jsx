@@ -393,14 +393,6 @@ const HistoryPage = () => {
         )}
 
         {isLoading && <LoadingState selectedSeason={selectedSeason} />}
-
-        <div className="quick-nav-container">
-          <QuickNavigation
-            selectedSeason={selectedSeason}
-            currentYear={currentYear}
-            onSeasonChange={handleSeasonChange}
-          />
-        </div>
       </div>
 
       <Outlet />

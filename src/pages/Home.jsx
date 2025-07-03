@@ -58,24 +58,12 @@ const HomePage = () => {
         </div>
 
         <div className="home-section">
-          <div className="section-header">
-            <h2 className="section-title">Current Season Leaders</h2>
-            <p className="section-subtitle">
-              Follow the championship battle with current driver and constructor
-              standings.
-            </p>
-          </div>
           <div className="championship-tables-container">
+            <h2 className="section-title">Current Season Leaders</h2>
             <ChampionshipTables
               topDrivers={topDrivers}
               topConstructors={topConstructors}
             />
-          </div>
-        </div>
-
-        <div className="home-section">
-          <div className="quick-actions-container">
-            <QuickActions />
           </div>
         </div>
       </div>

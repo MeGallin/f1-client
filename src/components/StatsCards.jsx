@@ -79,7 +79,7 @@ const StatsCards = ({
           <h3 className="card-title">Last Race</h3>
         </div>
         <div className="card-content">
-          <div>
+          <div className="race-info-section">
             <div className="race-name">
               {currentRace?.MRData?.RaceTable?.Races?.[0]?.raceName?.replace(
                 'Grand Prix',
@@ -90,7 +90,7 @@ const StatsCards = ({
               📅 {currentRace?.MRData?.RaceTable?.Races?.[0]?.date || ''}
             </div>
           </div>
-          <div>
+          <div className="podium-section">
             <h4 className="podium-title">Podium Finishers</h4>
             <RaceTop3
               top3Finishers={getTop3Finishers()}
@@ -107,7 +107,7 @@ const StatsCards = ({
           <h3 className="card-title">Next Race</h3>
         </div>
         <div className="card-content">
-          <div>
+          <div className="race-info">
             <div className="race-name">
               {nextRace?.MRData?.RaceTable?.Races?.[0]?.raceName?.replace(
                 'Grand Prix',
@@ -116,6 +116,10 @@ const StatsCards = ({
             </div>
             <div className="race-date">
               📅 {nextRace?.MRData?.RaceTable?.Races?.[0]?.date || ''}
+            </div>
+            <div className="race-season">
+              Season{' '}
+              {nextRace?.MRData?.RaceTable?.season || new Date().getFullYear()}
             </div>
           </div>
           <div>
@@ -127,28 +131,33 @@ const StatsCards = ({
             />
             <div className="details-grid">
               <div className="detail-item">
-                <div className="detail-label">🏁 Event</div>
+                <div className="detail-label">🏁 EVENT</div>
                 <div className="detail-value">
                   Round{' '}
                   {nextRace?.MRData?.RaceTable?.Races?.[0]?.round || 'TBA'}
                 </div>
               </div>
               <div className="detail-item">
-                <div className="detail-label">🏎️ Circuit</div>
+                <div className="detail-label">🏎️ CIRCUIT</div>
                 <div className="detail-value">
-                  {nextRace?.MRData?.RaceTable?.Races?.[0]?.Circuit
-                    ?.circuitName || 'TBA'}
+                  {nextRace?.MRData?.RaceTable?.Races?.[0]?.Circuit?.circuitName?.replace(
+                    ' Circuit',
+                    '',
+                  ) || 'TBA'}
                 </div>
               </div>
               <div className="detail-item">
-                <div className="detail-label">📍 Location</div>
+                <div className="detail-label">📍 LOCATION</div>
                 <div className="detail-value">
                   {nextRace?.MRData?.RaceTable?.Races?.[0]?.Circuit?.Location
                     ?.locality || 'TBA'}
+                  ,{' '}
+                  {nextRace?.MRData?.RaceTable?.Races?.[0]?.Circuit?.Location
+                    ?.country || ''}
                 </div>
               </div>
               <div className="detail-item">
-                <div className="detail-label">⏰ Race Start</div>
+                <div className="detail-label">⏰ RACE START</div>
                 <div className="detail-value">
                   {nextRace?.MRData?.RaceTable?.Races?.[0]?.time
                     ? new Date(
